@@ -1,30 +1,21 @@
 import { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { TopBar } from '../TopBar/TopBar';
-import { useSidebarCollapsed } from '../../hooks/use-sidebar-collapsed';
 import styles from './AppLayout.module.css';
 
 export function AppLayout() {
-  const { collapsed, toggle } = useSidebarCollapsed();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const { pathname } = useLocation();
-
-  const overlayMode = pathname.startsWith('/chapter/');
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className={`${styles.layout} ${collapsed ? styles.sidebarCollapsed : ''} ${overlayMode ? styles.overlayMode : ''}`}>
+    <div className={styles.layout}>
       <Sidebar
-        collapsed={overlayMode ? false : collapsed}
-        mobileOpen={overlayMode ? mobileOpen : mobileOpen}
-        onToggle={overlayMode ? () => setMobileOpen(false) : toggle}
-        onMobileClose={() => setMobileOpen(false)}
-        overlay={overlayMode}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
       />
       <TopBar
-        onMenuClick={() => setMobileOpen((o) => !o)}
-        overlayMode={overlayMode}
-        drawerOpen={mobileOpen}
+        onMenuClick={() => setDrawerOpen((o) => !o)}
+        drawerOpen={drawerOpen}
       />
       <main className={styles.content}>
         <Outlet />

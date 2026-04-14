@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  left: var(--sidebar-width, 240px);
+  left: 0;
   height: 56px;
   display: flex;
   align-items: center;
@@ -13,14 +13,9 @@
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--c-line);
   z-index: 100;
-  transition: left 0.25s var(--ease);
 }
 
-.topbar.overlayMode {
-  left: 0;
-}
-
-/* ── Hamburger / X button (chapter overlay mode) ──── */
+/* ── Hamburger / X button ─────────────────────────── */
 .drawerBtn {
   display: flex;
   align-items: center;
@@ -36,7 +31,7 @@
   color: var(--c-text);
 }
 
-/* ── Brand (shown in topbar on chapter pages) ─────── */
+/* ── Brand ────────────────────────────────────────── */
 .brand {
   display: flex;
   align-items: center;
@@ -61,16 +56,6 @@
 .brandIcon span:nth-child(1) { background: var(--c-r); box-shadow: 0 0 8px var(--c-r); }
 .brandIcon span:nth-child(2) { background: var(--c-g); box-shadow: 0 0 8px var(--c-g); }
 .brandIcon span:nth-child(3) { background: var(--c-b); box-shadow: 0 0 8px var(--c-b); }
-
-/* ── Mobile-only menu button (non-chapter pages) ──── */
-.menuBtn {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--c-text-mute);
-  cursor: pointer;
-  padding: var(--s-2);
-}
 
 /* ── Search ───────────────────────────────────────── */
 .searchWrapper {
@@ -118,13 +103,4 @@
   border-radius: 4px;
   padding: 2px 6px;
   pointer-events: none;
-}
-
-@media (max-width: 768px) {
-  .topbar {
-    left: 0;
-  }
-  .menuBtn {
-    display: flex;
-  }
 }

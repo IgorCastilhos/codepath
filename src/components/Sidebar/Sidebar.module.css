@@ -10,18 +10,18 @@
   display: flex;
   flex-direction: column;
   z-index: 120;
-  transition: width 0.25s var(--ease);
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--ease-out);
   overflow-x: hidden;
 }
-.sidebar.collapsed {
-  width: 60px;
+.sidebar.open {
+  transform: translateX(0);
 }
 
 /* ── Header / brand ───────────────────────────────── */
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: var(--s-4) var(--s-4);
   min-height: 56px;
   gap: var(--s-2);
@@ -35,6 +35,7 @@
   letter-spacing: 0.05em;
   color: var(--c-text);
   white-space: nowrap;
+  text-decoration: none;
 }
 .brandIcon {
   display: inline-flex;
@@ -49,25 +50,6 @@
 .brandIcon span:nth-child(1) { background: var(--c-r); box-shadow: 0 0 8px var(--c-r); }
 .brandIcon span:nth-child(2) { background: var(--c-g); box-shadow: 0 0 8px var(--c-g); }
 .brandIcon span:nth-child(3) { background: var(--c-b); box-shadow: 0 0 8px var(--c-b); }
-
-.toggle {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: 1px solid var(--c-line);
-  border-radius: var(--r-sm);
-  color: var(--c-text-mute);
-  cursor: pointer;
-  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
-}
-.toggle:hover {
-  color: var(--c-text);
-  border-color: var(--c-line-strong);
-}
 
 /* ── Navigation ───────────────────────────────────── */
 .nav {
@@ -87,12 +69,6 @@
   text-transform: uppercase;
   color: var(--c-text-dim);
   white-space: nowrap;
-}
-.sectionDivider {
-  display: block;
-  height: 1px;
-  background: var(--c-line);
-  margin: var(--s-2) var(--s-3);
 }
 .list {
   list-style: none;
@@ -122,34 +98,10 @@
   background: var(--c-bg-elev-3);
 }
 
-/* ── Overlay / mobile backdrop ─────────────────────── */
+/* ── Backdrop ──────────────────────────────────────── */
 .backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 110;
-}
-
-/* ── Overlay mode (chapter pages) ─────────────────── */
-.sidebar.overlay {
-  transform: translateX(-100%);
-  width: 240px !important;
-  transition: transform 0.3s var(--ease-out);
-}
-.sidebar.overlay.mobileOpen {
-  transform: translateX(0);
-}
-
-@media (max-width: 768px) {
-  .sidebar:not(.overlay) {
-    transform: translateX(-100%);
-    width: 240px !important;
-    transition: transform 0.3s var(--ease-out);
-  }
-  .sidebar:not(.overlay).mobileOpen {
-    transform: translateX(0);
-  }
-  .sidebar:not(.overlay).collapsed {
-    transform: translateX(-100%);
-  }
 }

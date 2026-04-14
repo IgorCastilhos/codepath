@@ -7,11 +7,10 @@ import styles from './TopBar.module.css';
 
 interface Props {
   onMenuClick: () => void;
-  overlayMode?: boolean;
-  drawerOpen?: boolean;
+  drawerOpen: boolean;
 }
 
-export function TopBar({ onMenuClick, overlayMode, drawerOpen }: Props) {
+export function TopBar({ onMenuClick, drawerOpen }: Props) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,25 +33,17 @@ export function TopBar({ onMenuClick, overlayMode, drawerOpen }: Props) {
   }, []);
 
   return (
-    <header className={`${styles.topbar} ${overlayMode ? styles.overlayMode : ''}`}>
-      {overlayMode && (
-        <button className={styles.drawerBtn} onClick={onMenuClick} aria-label={drawerOpen ? 'Close menu' : 'Open menu'}>
-          {drawerOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      )}
-
-      {overlayMode && (
-        <Link to="/" className={styles.brand}>
-          <span className={styles.brandIcon} aria-hidden="true">
-            <span /><span /><span />
-          </span>
-          <span>CODEPATH</span>
-        </Link>
-      )}
-
-      <button className={styles.menuBtn} onClick={onMenuClick} aria-label="Toggle menu">
-        <Menu size={20} />
+    <header className={styles.topbar}>
+      <button className={styles.drawerBtn} onClick={onMenuClick} aria-label={drawerOpen ? 'Close menu' : 'Open menu'}>
+        {drawerOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
+
+      <Link to="/" className={styles.brand}>
+        <span className={styles.brandIcon} aria-hidden="true">
+          <span /><span /><span />
+        </span>
+        <span>CODEPATH</span>
+      </Link>
 
       <div className={styles.searchWrapper}>
         <Search size={16} className={styles.searchIcon} />

@@ -2,16 +2,12 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   Home, BookMarked, Library, FolderKanban,
   CalendarDays, MessageSquare, Users, HelpCircle,
-  PanelLeftClose, PanelLeft,
 } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
 interface Props {
-  collapsed: boolean;
-  mobileOpen: boolean;
-  onToggle: () => void;
-  onMobileClose: () => void;
-  overlay?: boolean;
+  open: boolean;
+  onClose: () => void;
 }
 
 const NAV_SECTIONS = [
@@ -63,7 +59,7 @@ function isInternal(item: NavItem): item is NavItemInternal {
   return 'to' in item;
 }
 
-export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose, overlay }: Props) {
+export function Sidebar({ open, onClose }: Props) {
   const { pathname } = useLocation();
 
   const isActive = (to: string) => {
@@ -73,43 +69,26 @@ export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose, overla
 
   return (
     <>
-      {mobileOpen && (
-        <div className={styles.backdrop} onClick={onMobileClose} aria-hidden />
+      {open && (
+        <div className={styles.backdrop} onClick={onClose} aria-hidden />
       )}
       <aside
-        className={[
-          styles.sidebar,
-          collapsed && !overlay ? styles.collapsed : '',
-          mobileOpen ? styles.mobileOpen : '',
-          overlay ? styles.overlay : '',
-        ].filter(Boolean).join(' ')}
+        className={`${styles.sidebar} ${open ? styles.open : ''}`}
       >
         <div className={styles.header}>
-          <Link to="/" className={styles.brand} onClick={onMobileClose}>
+          <Link to="/" className={styles.brand} onClick={onClose}>
             <span className={styles.brandIcon} aria-hidden="true">
               <span /><span /><span />
             </span>
-            {(!collapsed || overlay) && <span>CODEPATH</span>}
+            <span>CODEPATH</span>
           </Link>
-          {!overlay && (
-            <button
-              className={styles.toggle}
-              onClick={onToggle}
-              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            >
-              {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
-            </button>
-          )}
         </div>
 
         <nav className={styles.nav} aria-label="Main navigation">
           {NAV_SECTIONS.map((section, si) => (
             <div key={si} className={styles.section}>
-              {section.heading && !collapsed && (
+              {section.heading && (
                 <span className={styles.sectionHeading}>{section.heading}</span>
-              )}
-              {section.heading && collapsed && (
-                <span className={styles.sectionDivider} />
               )}
               <ul className={styles.list}>
                 {section.items.map((item) => {
@@ -121,11 +100,10 @@ export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose, overla
                         <Link
                           to={item.to}
                           className={`${styles.link} ${active ? styles.active : ''}`}
-                          onClick={onMobileClose}
-                          title={collapsed ? item.label : undefined}
+                          onClick={onClose}
                         >
                           <Icon size={18} />
-                          {!collapsed && <span>{item.label}</span>}
+                          <span>{item.label}</span>
                         </Link>
                       </li>
                     );
@@ -138,10 +116,9 @@ export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose, overla
                         target="_blank"
                         rel="noreferrer noopener"
                         className={styles.link}
-                        title={collapsed ? ext.label : undefined}
                       >
                         <Icon size={18} />
-                        {!collapsed && <span>{ext.label}</span>}
+                        <span>{ext.label}</span>
                       </a>
                     </li>
                   );

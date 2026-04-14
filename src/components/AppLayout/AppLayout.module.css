@@ -1,25 +1,9 @@
 .layout {
-  --sidebar-width: 240px;
-}
-.layout.sidebarCollapsed {
-  --sidebar-width: 60px;
-}
-.layout.overlayMode {
   --sidebar-width: 0px;
 }
 
 .content {
-  margin-left: var(--sidebar-width);
+  margin-left: 0;
   padding-top: 56px;
   min-height: 100vh;
-  transition: margin-left 0.25s var(--ease);
-}
-
-@media (max-width: 768px) {
-  .layout {
-    --sidebar-width: 0px;
-  }
-  .content {
-    margin-left: 0;
-  }
 }
