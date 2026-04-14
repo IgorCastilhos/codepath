@@ -1,73 +1,64 @@
-# React + TypeScript + Vite
+# CodePath
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A learning platform for software engineering built with React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Authentication (GitHub OAuth via Supabase)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Authentication is **optional** — the app works without it (progress stored in localStorage). To enable GitHub login:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Create a Supabase project
+
+Go to [supabase.com](https://supabase.com) and create a new project.
+
+### 2. Enable GitHub OAuth provider
+
+In your Supabase dashboard: **Authentication → Providers → GitHub**
+
+- Create a GitHub OAuth App at [github.com/settings/developers](https://github.com/settings/developers)
+- Set the callback URL to: `https://YOUR_PROJECT.supabase.co/auth/v1/callback`
+- Copy the Client ID and Client Secret into the Supabase GitHub provider settings
+
+### 3. Run the database migration
+
+In the Supabase SQL Editor, run the contents of:
+
 ```
+supabase/migrations/001_user_progress.sql
+```
+
+This creates the `user_progress` table with row-level security.
+
+### 4. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your Supabase project URL and anon key (found in **Settings → API**):
+
+```
+VITE_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+```
+
+### How it works
+
+- **Anonymous users**: Progress is stored in `localStorage`
+- **Logged-in users**: Progress is synced to Supabase (PostgreSQL)
+- **First login**: Any existing localStorage progress is merged into the user's Supabase account
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Type-check and build for production |
+| `npm run test` | Run tests |
+| `npm run lint` | Lint with ESLint |

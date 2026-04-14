@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { curriculum } from '../data/curriculum';
 import {
   computeCompletionPercent,
@@ -7,10 +7,14 @@ import {
   type MilestoneStatus,
   type ProgressState,
 } from '../domain/progress';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '../lib/supabase';
 import { LocalStorageProgressRepository } from '../storage/local-storage-repository';
+import { SupabaseProgressRepository } from '../storage/supabase-progress-repository';
+import { mergeLocalProgressOnFirstLogin } from '../storage/merge-progress';
 import type { ProgressRepository } from '../storage/progress-repository';
 
-const repository: ProgressRepository =
+const localRepo: ProgressRepository =
   typeof window !== 'undefined'
     ? new LocalStorageProgressRepository(window.localStorage)
     : {
@@ -21,6 +25,7 @@ const repository: ProgressRepository =
 
 export interface UseProgressResult {
   progress: ProgressState;
+  loading: boolean;
   statuses: Record<string, MilestoneStatus>;
   completionPercent: number;
   toggleResource: (resourceId: string) => void;
@@ -29,12 +34,42 @@ export interface UseProgressResult {
 }
 
 export function useProgress(): UseProgressResult {
-  const [progress, setProgress] = useState<ProgressState>(() => repository.load());
+  const { user } = useAuth();
+  const [progress, setProgress] = useState<ProgressState>(() => {
+    // Start with local progress (sync) while we may load from Supabase
+    const local = localRepo.load();
+    return local instanceof Promise ? createDefaultProgress() : local;
+  });
+  const [loading, setLoading] = useState(false);
 
-  const update = useCallback((next: ProgressState) => {
-    setProgress(next);
-    repository.save(next);
-  }, []);
+  // Track the active repository
+  const repoRef = useRef<ProgressRepository>(localRepo);
+
+  // When user changes, switch repository and load progress
+  useEffect(() => {
+    if (user && supabase) {
+      const supaRepo = new SupabaseProgressRepository(supabase, user.id);
+      repoRef.current = supaRepo;
+      setLoading(true);
+
+      (async () => {
+        // Merge any local progress on first login
+        await mergeLocalProgressOnFirstLogin(supabase, user.id);
+        // Load from Supabase
+        const loaded = await supaRepo.load();
+        setProgress(loaded);
+        setLoading(false);
+      })();
+    } else {
+      repoRef.current = localRepo;
+      const loaded = localRepo.load();
+      if (loaded instanceof Promise) {
+        loaded.then(setProgress);
+      } else {
+        setProgress(loaded);
+      }
+    }
+  }, [user]);
 
   const toggleResource = useCallback(
     (resourceId: string) => {
@@ -47,7 +82,7 @@ export function useProgress(): UseProgressResult {
           completedResourceIds: Array.from(set),
           updatedAt: new Date().toISOString(),
         };
-        repository.save(next);
+        repoRef.current.save(next);
         return next;
       });
     },
@@ -55,9 +90,9 @@ export function useProgress(): UseProgressResult {
   );
 
   const resetProgress = useCallback(() => {
-    repository.reset();
-    update(createDefaultProgress());
-  }, [update]);
+    repoRef.current.reset();
+    setProgress(createDefaultProgress());
+  }, []);
 
   const setLastVisited = useCallback(
     (milestoneId: string) => {
@@ -68,7 +103,7 @@ export function useProgress(): UseProgressResult {
           lastVisitedMilestoneId: milestoneId,
           updatedAt: new Date().toISOString(),
         };
-        repository.save(next);
+        repoRef.current.save(next);
         return next;
       });
     },
@@ -83,6 +118,7 @@ export function useProgress(): UseProgressResult {
 
   return {
     progress,
+    loading,
     statuses,
     completionPercent,
     toggleResource,

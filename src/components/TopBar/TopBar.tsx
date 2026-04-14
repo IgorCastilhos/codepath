@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, Menu, X } from 'lucide-react';
 import { useSearch } from '../../hooks/use-search';
 import { SearchResults } from '../SearchResults/SearchResults';
+import { UserMenu } from '../UserMenu/UserMenu';
 import styles from './TopBar.module.css';
 
 interface Props {
@@ -61,6 +62,8 @@ export function TopBar({ onMenuClick, drawerOpen }: Props) {
           <SearchResults results={results} onClose={handleClose} />
         )}
       </div>
+
+      <UserMenu />
     </header>
   );
 }

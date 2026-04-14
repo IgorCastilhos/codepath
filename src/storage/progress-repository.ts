@@ -1,7 +1,7 @@
 import type { ProgressState } from '../domain/progress';
 
 export interface ProgressRepository {
-  load(): ProgressState;
-  save(state: ProgressState): void;
-  reset(): void;
+  load(): ProgressState | Promise<ProgressState>;
+  save(state: ProgressState): void | Promise<void>;
+  reset(): void | Promise<void>;
 }

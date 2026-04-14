@@ -1,0 +1,131 @@
+/* ── Sign-in button ──────────────────────────────── */
+.signInBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  background: var(--c-bg-elev-2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-pill);
+  color: var(--c-text);
+  font-family: var(--f-sans);
+  font-size: var(--t-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.signInBtn:hover {
+  background: var(--c-bg-elev-3);
+  border-color: var(--c-line-strong);
+}
+
+/* ── Skeleton (loading) ──────────────────────────── */
+.skeleton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c-bg-elev-2);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Avatar button ───────────────────────────────── */
+.wrapper {
+  position: relative;
+}
+.avatarBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--c-line);
+  transition: border-color 0.2s var(--ease);
+}
+.avatarBtn:hover .avatar {
+  border-color: var(--c-line-strong);
+}
+.avatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c-bg-elev-3);
+  border: 2px solid var(--c-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  color: var(--c-text);
+}
+.chevron {
+  color: var(--c-text-mute);
+  transition: transform 0.2s var(--ease);
+}
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown ────────────────────────────────────── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--s-2));
+  right: 0;
+  min-width: 200px;
+  background: var(--c-bg-elev-2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  overflow: hidden;
+}
+.userInfo {
+  padding: var(--s-3) var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.userName {
+  font-family: var(--f-sans);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--c-text);
+}
+.userEmail {
+  font-family: var(--f-sans);
+  font-size: var(--t-xs);
+  color: var(--c-text-dim);
+}
+.divider {
+  height: 1px;
+  background: var(--c-line);
+}
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  background: none;
+  border: none;
+  color: var(--c-text-mute);
+  font-family: var(--f-sans);
+  font-size: var(--t-sm);
+  cursor: pointer;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.dropdownItem:hover {
+  color: var(--c-text);
+  background: var(--c-bg-elev-3);
+}
