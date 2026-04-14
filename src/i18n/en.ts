@@ -58,8 +58,8 @@ export const en: Translations = {
   home: {
     meta: 'Roadmap System / V 1.0 — 2026',
     live: 'System live — 4 phases',
-    headline1: 'Formação',
-    headline2: 'Engenheiro.',
+    headline1: 'Codepath',
+    headline2: '',
     lede: 'A complete roadmap from Computer Science fundamentals to Clean Architecture and DDD. Four phases — Java & Node.js, PostgreSQL, TDD, Docker — every step toward production-grade engineering.',
     continuePhase: (order) => `Continue phase ${order}`,
     startPhase: (order) => `Start phase ${order}`,

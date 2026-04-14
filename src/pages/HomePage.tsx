@@ -68,9 +68,6 @@ export function HomePage() {
           </div>
           <h1 className={styles.heroHeadline}>
             <span className={styles.row}><span>{t.home.headline1}</span></span>
-            <span className={styles.row}>
-              <span className="italic gradient-text">{t.home.headline2}</span>
-            </span>
           </h1>
           <p className={styles.lede}>{t.home.lede}</p>
 

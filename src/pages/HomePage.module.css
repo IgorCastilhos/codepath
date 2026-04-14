@@ -211,10 +211,7 @@
   font-family: var(--f-display);
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-style: italic;
-  background: linear-gradient(135deg, #ff2e63, #9dff3c, #3c9dff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--c-text);
 }
 .statLabel {
   font-family: var(--f-mono);
@@ -287,10 +284,7 @@
   font-weight: 400;
 }
 .grad {
-  background: linear-gradient(90deg, #ff2e63, #9dff3c, #3c9dff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--c-text);
   font-style: italic;
 }
 .ctaActions {
