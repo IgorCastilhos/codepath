@@ -2,7 +2,10 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Menu, X } from 'lucide-react';
 import { useSearch } from '../../hooks/use-search';
+import { useTranslation } from '../../i18n';
 import { SearchResults } from '../SearchResults/SearchResults';
+import { LanguageSwitcher } from '../LanguageSwitcher/LanguageSwitcher';
+import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher';
 import { UserMenu } from '../UserMenu/UserMenu';
 import styles from './TopBar.module.css';
 
@@ -12,6 +15,7 @@ interface Props {
 }
 
 export function TopBar({ onMenuClick, drawerOpen }: Props) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +39,7 @@ export function TopBar({ onMenuClick, drawerOpen }: Props) {
 
   return (
     <header className={styles.topbar}>
-      <button className={styles.drawerBtn} onClick={onMenuClick} aria-label={drawerOpen ? 'Close menu' : 'Open menu'}>
+      <button className={styles.drawerBtn} onClick={onMenuClick} aria-label={drawerOpen ? t.topbar.closeMenu : t.topbar.openMenu}>
         {drawerOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
@@ -52,7 +56,7 @@ export function TopBar({ onMenuClick, drawerOpen }: Props) {
           ref={inputRef}
           type="text"
           className={styles.searchInput}
-          placeholder="Search content..."
+          placeholder={t.topbar.searchPlaceholder}
           value={query}
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => { if (query.length >= 2) setOpen(true); }}
@@ -63,7 +67,11 @@ export function TopBar({ onMenuClick, drawerOpen }: Props) {
         )}
       </div>
 
-      <UserMenu />
+      <div className={styles.controls}>
+        <LanguageSwitcher />
+        <ThemeSwitcher />
+        <UserMenu />
+      </div>
     </header>
   );
 }

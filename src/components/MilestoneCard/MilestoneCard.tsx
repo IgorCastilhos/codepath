@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { BookOpen, Play, Code } from 'lucide-react';
 import type { Milestone, ResourceType } from '../../domain/milestone';
 import type { MilestoneStatus } from '../../domain/progress';
+import { useTranslation } from '../../i18n';
 import { StatusBadge } from '../StatusBadge/StatusBadge';
 import styles from './MilestoneCard.module.css';
 
@@ -18,12 +19,6 @@ const TYPE_ICON: Record<ResourceType, ReactNode> = {
   exercise: <Code size={12} />,
 };
 
-const TYPE_LABEL: Record<ResourceType, string> = {
-  reading: 'Reading',
-  video: 'Videos',
-  exercise: 'Exercises',
-};
-
 function groupCounts(milestone: Milestone): Array<[ResourceType, number]> {
   const counts: Record<ResourceType, number> = { reading: 0, video: 0, exercise: 0 };
   for (const r of milestone.resources) counts[r.type]++;
@@ -37,8 +32,16 @@ function formatOrder(n: number): string {
 }
 
 export function MilestoneCard({ milestone, status, className }: Props) {
+  const { t } = useTranslation();
   const locked = status === 'locked';
   const rootClass = [styles.card, styles[status], className].filter(Boolean).join(' ');
+
+  const typeLabelMap: Record<ResourceType, string> = {
+    reading: t.resourceType.readingPlural,
+    video: t.resourceType.videoPlural,
+    exercise: t.resourceType.exercisePlural,
+  };
+
   const content = (
     <>
       <div className={styles.header}>
@@ -53,7 +56,7 @@ export function MilestoneCard({ milestone, status, className }: Props) {
             <span className={styles.icon} aria-hidden="true">
               {TYPE_ICON[type]}
             </span>
-            {TYPE_LABEL[type]}
+            {typeLabelMap[type]}
             <span className={styles.count}>{count}</span>
           </div>
         ))}
@@ -66,7 +69,7 @@ export function MilestoneCard({ milestone, status, className }: Props) {
       <div
         className={rootClass}
         aria-disabled="true"
-        aria-label={`${milestone.title} — locked`}
+        aria-label={t.milestone.locked(milestone.title)}
       >
         {content}
       </div>
@@ -77,7 +80,7 @@ export function MilestoneCard({ milestone, status, className }: Props) {
     <Link
       to={`/chapter/${milestone.id}`}
       className={rootClass}
-      aria-label={`${milestone.title} — open chapter`}
+      aria-label={t.milestone.openChapter(milestone.title)}
     >
       {content}
     </Link>

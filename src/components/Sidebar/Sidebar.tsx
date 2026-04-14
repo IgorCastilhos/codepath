@@ -3,6 +3,7 @@ import {
   Home, BookMarked, Library, FolderKanban,
   CalendarDays, MessageSquare, Users, HelpCircle,
 } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 import styles from './Sidebar.module.css';
 
 interface Props {
@@ -10,50 +11,54 @@ interface Props {
   onClose: () => void;
 }
 
-const NAV_SECTIONS = [
-  {
-    heading: undefined as string | undefined,
-    items: [
-      { to: '/', label: 'Home', icon: Home },
-    ],
-  },
-  {
-    heading: 'Progress',
-    items: [
-      { to: '/my-content', label: 'My Content', icon: BookMarked },
-    ],
-  },
-  {
-    heading: 'Learning',
-    items: [
-      { to: '/catalog', label: 'Catalog', icon: Library },
-      { to: '/projects', label: 'Projects', icon: FolderKanban },
-      { to: '/events', label: 'Events', icon: CalendarDays },
-      { to: '/forum', label: 'Forum', icon: MessageSquare },
-    ],
-  },
-  {
-    heading: 'Links',
-    items: [
-      { href: 'https://discord.gg/', label: 'Community', icon: Users },
-      { to: '/help', label: 'Help', icon: HelpCircle },
-    ],
-  },
-];
-
 interface NavItemInternal {
   to: string;
-  label: string;
+  labelKey: string;
   icon: React.ComponentType<{ size?: number }>;
 }
 
 interface NavItemExternal {
   href: string;
-  label: string;
+  labelKey: string;
   icon: React.ComponentType<{ size?: number }>;
 }
 
 type NavItem = NavItemInternal | NavItemExternal;
+
+interface NavSection {
+  headingKey?: string;
+  items: NavItem[];
+}
+
+const NAV_SECTIONS: NavSection[] = [
+  {
+    items: [
+      { to: '/', labelKey: 'home', icon: Home },
+    ],
+  },
+  {
+    headingKey: 'sectionProgress',
+    items: [
+      { to: '/my-content', labelKey: 'myContent', icon: BookMarked },
+    ],
+  },
+  {
+    headingKey: 'sectionLearning',
+    items: [
+      { to: '/catalog', labelKey: 'catalog', icon: Library },
+      { to: '/projects', labelKey: 'projects', icon: FolderKanban },
+      { to: '/events', labelKey: 'events', icon: CalendarDays },
+      { to: '/forum', labelKey: 'forum', icon: MessageSquare },
+    ],
+  },
+  {
+    headingKey: 'sectionLinks',
+    items: [
+      { href: 'https://discord.gg/', labelKey: 'community', icon: Users },
+      { to: '/help', labelKey: 'help', icon: HelpCircle },
+    ],
+  },
+];
 
 function isInternal(item: NavItem): item is NavItemInternal {
   return 'to' in item;
@@ -61,6 +66,7 @@ function isInternal(item: NavItem): item is NavItemInternal {
 
 export function Sidebar({ open, onClose }: Props) {
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   const isActive = (to: string) => {
     if (to === '/') return pathname === '/';
@@ -87,12 +93,15 @@ export function Sidebar({ open, onClose }: Props) {
         <nav className={styles.nav} aria-label="Main navigation">
           {NAV_SECTIONS.map((section, si) => (
             <div key={si} className={styles.section}>
-              {section.heading && (
-                <span className={styles.sectionHeading}>{section.heading}</span>
+              {section.headingKey && (
+                <span className={styles.sectionHeading}>
+                  {t.nav[section.headingKey as keyof typeof t.nav]}
+                </span>
               )}
               <ul className={styles.list}>
                 {section.items.map((item) => {
                   const Icon = item.icon;
+                  const label = t.nav[item.labelKey as keyof typeof t.nav];
                   if (isInternal(item)) {
                     const active = isActive(item.to);
                     return (
@@ -103,14 +112,14 @@ export function Sidebar({ open, onClose }: Props) {
                           onClick={onClose}
                         >
                           <Icon size={18} />
-                          <span>{item.label}</span>
+                          <span>{label}</span>
                         </Link>
                       </li>
                     );
                   }
                   const ext = item as NavItemExternal;
                   return (
-                    <li key={ext.label}>
+                    <li key={ext.labelKey}>
                       <a
                         href={ext.href}
                         target="_blank"
@@ -118,7 +127,7 @@ export function Sidebar({ open, onClose }: Props) {
                         className={styles.link}
                       >
                         <Icon size={18} />
-                        <span>{ext.label}</span>
+                        <span>{label}</span>
                       </a>
                     </li>
                   );

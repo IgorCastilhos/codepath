@@ -5,9 +5,10 @@ import {
   BookOpen, Play, Code, ArrowLeft,
   SkipBack, CheckCircle2, Download, ChevronRight,
 } from 'lucide-react';
-import { curriculum } from '../data/curriculum';
+import { useCurriculum } from '../data/use-curriculum';
 import type { Resource, ResourceType } from '../domain/milestone';
 import { useProgress } from '../hooks/use-progress';
+import { useTranslation } from '../i18n';
 import styles from './VideoPage.module.css';
 
 const TYPE_ICON: Record<ResourceType, ReactNode> = {
@@ -58,7 +59,6 @@ function SidebarItem({ resource, chapterId, isActive, isDone }: SidebarItemProps
       <Link
         to={`/chapter/${chapterId}/video/${resource.id}`}
         className={className}
-        aria-label={`Watch ${resource.title}`}
         aria-current={isActive ? 'page' : undefined}
       >
         {content}
@@ -72,7 +72,6 @@ function SidebarItem({ resource, chapterId, isActive, isDone }: SidebarItemProps
       target="_blank"
       rel="noreferrer noopener"
       className={className}
-      aria-label={`Open ${resource.title}`}
     >
       {content}
     </a>
@@ -82,12 +81,14 @@ function SidebarItem({ resource, chapterId, isActive, isDone }: SidebarItemProps
 export function VideoPage() {
   const { id, resourceId } = useParams<{ id: string; resourceId: string }>();
   const navigate = useNavigate();
+  const curriculum = useCurriculum();
+  const { t } = useTranslation();
   const { progress, toggleResource } = useProgress();
   const [activeBottomTab, setActiveBottomTab] = useState<'about' | 'materials'>('about');
 
   const milestone = useMemo(
     () => curriculum.find((m) => m.id === id) ?? null,
-    [id],
+    [id, curriculum],
   );
 
   const resource = useMemo(
@@ -103,9 +104,9 @@ export function VideoPage() {
       <div className={styles.page}>
         <div className={styles.errorState}>
           <p style={{ color: 'var(--c-text-mute)', marginBottom: 'var(--s-5)' }}>
-            Resource not found.
+            {t.video.resourceNotFound}
           </p>
-          <Link to="/" className={styles.backLink}><ArrowLeft size={14} /> Back to the roadmap</Link>
+          <Link to="/" className={styles.backLink}><ArrowLeft size={14} /> {t.chapter.backToRoadmap}</Link>
         </div>
       </div>
     );
@@ -147,7 +148,7 @@ export function VideoPage() {
             className={`${styles.markBtn} ${isDone ? styles.markBtnDone : ''}`}
             onClick={handleMarkDone}
           >
-            {isDone ? <><CheckCircle2 size={14} /> Completed</> : 'Mark as done'}
+            {isDone ? <><CheckCircle2 size={14} /> {t.video.completed}</> : t.video.markAsDone}
           </button>
         </div>
       </header>
@@ -159,7 +160,7 @@ export function VideoPage() {
           <div className={styles.playerWrapper}>
             <div className={styles.player}>
               <div className={styles.playerPlaceholder}>
-                <div className={styles.playerPlayBtn} aria-label="Play video">
+                <div className={styles.playerPlayBtn} aria-label={t.video.playVideo}>
                   <Play size={32} />
                 </div>
                 <p className={styles.playerTitle}>{resource.title}</p>
@@ -169,8 +170,8 @@ export function VideoPage() {
               </div>
               {/* Player controls bar */}
               <div className={styles.playerControls}>
-                <button className={styles.controlBtn} aria-label="Rewind 10 seconds"><SkipBack size={16} /></button>
-                <button className={styles.controlBtn} aria-label="Play/Pause"><Play size={16} /></button>
+                <button className={styles.controlBtn} aria-label={t.video.rewind}><SkipBack size={16} /></button>
+                <button className={styles.controlBtn} aria-label={t.video.playPause}><Play size={16} /></button>
                 <div className={styles.progressTrack}>
                   <div className={styles.progressHead} />
                 </div>
@@ -186,13 +187,13 @@ export function VideoPage() {
                 className={`${styles.bottomTab} ${activeBottomTab === 'about' ? styles.bottomTabActive : ''}`}
                 onClick={() => setActiveBottomTab('about')}
               >
-                About the lesson
+                {t.video.aboutLesson}
               </button>
               <button
                 className={`${styles.bottomTab} ${activeBottomTab === 'materials' ? styles.bottomTabActive : ''}`}
                 onClick={() => setActiveBottomTab('materials')}
               >
-                Materials
+                {t.video.materials}
               </button>
             </nav>
 
@@ -201,13 +202,13 @@ export function VideoPage() {
                 <div className={styles.aboutContent}>
                   <h2 className={styles.lessonTitle}>{resource.title}</h2>
                   <p className={styles.lessonMeta}>
-                    Chapter {milestone.order.toString().padStart(2, '0')} — {milestone.title} ·{' '}
-                    {formatDuration(resource.durationMinutes)} video
+                    {milestone.order.toString().padStart(2, '0')} — {milestone.title} ·{' '}
+                    {formatDuration(resource.durationMinutes)} {t.resourceType.video.toLowerCase()}
                   </p>
                   <p className={styles.lessonDesc}>{milestone.description}</p>
                   {nextVideo && (
                     <div className={styles.nextLesson}>
-                      <span className={styles.nextLabel}>Up next</span>
+                      <span className={styles.nextLabel}>{t.video.upNext}</span>
                       <Link
                         to={`/chapter/${milestone.id}/video/${nextVideo.id}`}
                         className={styles.nextLink}
@@ -222,9 +223,9 @@ export function VideoPage() {
                 <div className={styles.materialsContent}>
                   <div className={styles.materialsEmpty}>
                     <span className={styles.materialsEmptyIcon}><Download size={32} /></span>
-                    <p>No downloadable materials for this lesson.</p>
+                    <p>{t.video.noMaterials}</p>
                     <p className={styles.materialsEmptyHint}>
-                      Materials like slides, code files, and exercises will appear here when available.
+                      {t.video.materialsHint}
                     </p>
                   </div>
                 </div>
@@ -236,8 +237,8 @@ export function VideoPage() {
         {/* Right sidebar: content list */}
         <aside className={styles.sidebar}>
           <div className={styles.sidebarHeader}>
-            <span className={styles.sidebarTitle}>Contents</span>
-            <span className={styles.sidebarCount}>{milestone.resources.length} items</span>
+            <span className={styles.sidebarTitle}>{t.chapter.contents}</span>
+            <span className={styles.sidebarCount}>{milestone.resources.length} {t.chapter.items}</span>
           </div>
           <div className={styles.sideList}>
             {milestone.resources.map((r) => (

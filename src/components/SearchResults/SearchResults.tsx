@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Play, Code, ArrowRight } from 'lucide-react';
 import type { SearchResultItem } from '../../hooks/use-search';
+import { useTranslation } from '../../i18n';
 import styles from './SearchResults.module.css';
 
 interface Props {
@@ -17,6 +18,7 @@ const TYPE_ICON: Record<string, React.ReactNode> = {
 
 export function SearchResults({ results, onClose }: Props) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -72,7 +74,7 @@ export function SearchResults({ results, onClose }: Props) {
               {item.resourceTitle ?? item.milestoneTitle}
             </span>
             {item.resourceTitle && (
-              <span className={styles.meta}>Phase {item.milestoneOrder} — {item.milestoneTitle}</span>
+              <span className={styles.meta}>{t.search.phase(item.milestoneOrder, item.milestoneTitle)}</span>
             )}
           </span>
         </button>

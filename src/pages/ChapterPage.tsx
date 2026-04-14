@@ -6,9 +6,10 @@ import {
   BookOpen, Play, Code, ArrowLeft, ArrowRight, Clock,
   ListVideo, LayoutGrid, CheckCircle2, Circle,
 } from 'lucide-react';
-import { curriculum } from '../data/curriculum';
+import { useCurriculum } from '../data/use-curriculum';
 import type { Resource, ResourceType } from '../domain/milestone';
 import { useProgress } from '../hooks/use-progress';
+import { useTranslation } from '../i18n';
 import { Footer } from '../components/Footer/Footer';
 import { StatusBadge } from '../components/StatusBadge/StatusBadge';
 import { ResourceItem } from '../components/ResourceItem/ResourceItem';
@@ -19,18 +20,6 @@ const TYPE_ICON: Record<ResourceType, ReactNode> = {
   reading: <BookOpen size={14} />,
   video: <Play size={14} />,
   exercise: <Code size={14} />,
-};
-
-const TYPE_LABEL: Record<ResourceType, string> = {
-  reading: 'Reading',
-  video: 'Video',
-  exercise: 'Exercise',
-};
-
-const GROUP_LABEL: Record<ResourceType, string> = {
-  reading: 'Reading',
-  video: 'Videos',
-  exercise: 'Exercises',
 };
 
 const GROUP_ORDER: ResourceType[] = ['reading', 'video', 'exercise'];
@@ -58,30 +47,44 @@ function formatDuration(minutes: number): string {
 
 export function ChapterPage() {
   const { id } = useParams<{ id: string }>();
+  const curriculum = useCurriculum();
+  const { t } = useTranslation();
   const { statuses, progress, toggleResource, setLastVisited, resetProgress } =
     useProgress();
   const [activeTab, setActiveTab] = useState<'overview' | 'contents'>('overview');
 
   const milestone = useMemo(
     () => curriculum.find((m) => m.id === id) ?? null,
-    [id],
+    [id, curriculum],
   );
 
   useEffect(() => {
     if (milestone) setLastVisited(milestone.id);
   }, [milestone, setLastVisited]);
 
+  const groupLabel: Record<ResourceType, string> = {
+    reading: t.resourceType.readingPlural,
+    video: t.resourceType.videoPlural,
+    exercise: t.resourceType.exercisePlural,
+  };
+
+  const typeLabel: Record<ResourceType, string> = {
+    reading: t.resourceType.reading,
+    video: t.resourceType.video,
+    exercise: t.resourceType.exercise,
+  };
+
   if (!milestone) {
     return (
       <>
         <main className={styles.notFound}>
           <div className="container">
-            <h1>Chapter not found</h1>
+            <h1>{t.chapter.notFoundTitle}</h1>
             <p style={{ color: 'var(--c-text-mute)', marginBottom: 'var(--s-7)' }}>
-              That chapter does not exist on this path.
+              {t.chapter.notFoundDesc}
             </p>
             <ButtonLink to="/" variant="primary">
-              Back to the roadmap
+              {t.chapter.backToRoadmap}
               <ArrowRight size={14} />
             </ButtonLink>
           </div>
@@ -108,7 +111,7 @@ export function ChapterPage() {
       <main className={styles.page}>
         <div className="container">
           <Link to="/" className={styles.back}>
-            <ArrowLeft size={14} /> Back to the path
+            <ArrowLeft size={14} /> {t.chapter.backToPath}
           </Link>
 
           <header className={styles.header}>
@@ -127,14 +130,14 @@ export function ChapterPage() {
               onClick={() => setActiveTab('overview')}
             >
               <LayoutGrid size={14} />
-              Overview
+              {t.chapter.overview}
             </button>
             <button
               className={`${styles.tab} ${activeTab === 'contents' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('contents')}
             >
               <ListVideo size={14} />
-              Contents
+              {t.chapter.contents}
             </button>
           </nav>
 
@@ -145,15 +148,15 @@ export function ChapterPage() {
                   <ReactMarkdown>{milestone.longDescription}</ReactMarkdown>
                 </div>
 
-                <section className={styles.resourcesSection} aria-label="Chapter resources">
-                  <span className="eyebrow">Resources</span>
+                <section className={styles.resourcesSection} aria-label={t.chapter.resources}>
+                  <span className="eyebrow">{t.chapter.resources}</span>
                   {GROUP_ORDER.map((type) => {
                     const items = groups[type];
                     if (items.length === 0) return null;
                     return (
                       <div key={type}>
                         <div className={styles.groupHeading}>
-                          <span>{GROUP_LABEL[type]}</span>
+                          <span>{groupLabel[type]}</span>
                           <span className={styles.line} />
                           <span>{items.length}</span>
                         </div>
@@ -177,7 +180,7 @@ export function ChapterPage() {
               <aside className={styles.overviewSidebar}>
                 <div className={styles.sideCard}>
                   <div className={styles.sideProgress}>
-                    <span className={styles.sideProgressLabel}>Overall progress</span>
+                    <span className={styles.sideProgressLabel}>{t.progress.overallProgress}</span>
                     <span className={styles.sideProgressPct}>{progressPercent}%</span>
                   </div>
                   <div className={styles.sideProgressBar}>
@@ -190,26 +193,26 @@ export function ChapterPage() {
                     className={styles.startBtn}
                     onClick={() => setActiveTab('contents')}
                   >
-                    {completedCount === 0 ? 'Start' : 'Continue'} <ArrowRight size={14} />
+                    {completedCount === 0 ? t.chapter.start : t.chapter.continue} <ArrowRight size={14} />
                   </button>
                   <button
                     className={styles.contentsBtn}
                     onClick={() => setActiveTab('contents')}
                   >
-                    View contents <ArrowRight size={14} />
+                    {t.chapter.viewContents} <ArrowRight size={14} />
                   </button>
                 </div>
 
                 <div className={styles.sideCard}>
-                  <h4 className={styles.sideCardTitle}>Details</h4>
+                  <h4 className={styles.sideCardTitle}>{t.chapter.details}</h4>
                   <dl className={styles.detailList}>
-                    <dt><Clock size={12} /> Study time</dt>
+                    <dt><Clock size={12} /> {t.chapter.studyTime}</dt>
                     <dd>{formatDuration(totalMinutes)}</dd>
-                    <dt><ListVideo size={12} /> Resources</dt>
-                    <dd>{milestone.resources.length} items</dd>
-                    <dt><Play size={12} /> Videos</dt>
+                    <dt><ListVideo size={12} /> {t.chapter.resources}</dt>
+                    <dd>{milestone.resources.length} {t.chapter.items}</dd>
+                    <dt><Play size={12} /> {t.chapter.videos}</dt>
                     <dd>{groups.video.length}</dd>
-                    <dt><Code size={12} /> Exercises</dt>
+                    <dt><Code size={12} /> {t.chapter.exercises}</dt>
                     <dd>{groups.exercise.length}</dd>
                   </dl>
                 </div>
@@ -219,7 +222,7 @@ export function ChapterPage() {
             <div className={styles.contentsList}>
               <div className={styles.contentsHeader}>
                 <span className={styles.contentsCount}>
-                  {milestone.resources.length} items · {formatDuration(totalMinutes)}
+                  {milestone.resources.length} {t.chapter.items} · {formatDuration(totalMinutes)}
                 </span>
               </div>
               {milestone.resources.map((resource, index) => {
@@ -248,15 +251,15 @@ export function ChapterPage() {
                         {resource.title}
                       </a>
                     )}
-                    <span className={styles.contentsType}>{TYPE_LABEL[resource.type]}</span>
+                    <span className={styles.contentsType}>{typeLabel[resource.type]}</span>
                     <span className={styles.contentsDuration}>
                       {formatDuration(resource.durationMinutes)}
                     </span>
                     <button
                       className={`${styles.contentsMark} ${done ? styles.contentsMarkDone : ''}`}
                       onClick={() => toggleResource(resource.id)}
-                      aria-label={`Mark ${resource.title} as ${done ? 'incomplete' : 'complete'}`}
-                      title={done ? 'Mark incomplete' : 'Mark complete'}
+                      aria-label={t.resource.markAs(resource.title, done)}
+                      title={done ? t.resource.markIncomplete : t.resource.markComplete}
                     >
                       {done ? <CheckCircle2 size={16} /> : <Circle size={16} />}
                     </button>

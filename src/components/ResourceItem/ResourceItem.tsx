@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { BookOpen, Play, Code, ExternalLink, CheckCircle2, Circle } from 'lucide-react';
 import type { Resource, ResourceType } from '../../domain/milestone';
+import { useTranslation } from '../../i18n';
 import styles from './ResourceItem.module.css';
 
 interface Props {
@@ -22,27 +23,25 @@ const ICON_CLASS: Record<ResourceType, string> = {
   exercise: 'typeExercise',
 };
 
-const TYPE_LABEL: Record<ResourceType, string> = {
-  reading: 'Reading',
-  video: 'Video',
-  exercise: 'Exercise',
-};
-
 export function ResourceItem({ resource, checked, onToggle, onTitleClick }: Props) {
+  const { t } = useTranslation();
+
+  const typeLabel = t.resourceType[resource.type];
+
   return (
     <div className={`${styles.item} ${checked ? styles.done : ''}`}>
       <button
         className={`${styles.markBtn} ${checked ? styles.markBtnDone : ''}`}
         onClick={() => onToggle(resource.id)}
-        aria-label={`Mark ${resource.title} as ${checked ? 'incomplete' : 'complete'}`}
-        title={checked ? 'Mark incomplete' : 'Mark complete'}
+        aria-label={t.resource.markAs(resource.title, checked)}
+        title={checked ? t.resource.markIncomplete : t.resource.markComplete}
       >
         {checked ? <CheckCircle2 size={16} /> : <Circle size={16} />}
       </button>
       <span
         className={`${styles.icon} ${styles[ICON_CLASS[resource.type]]}`}
-        aria-label={TYPE_LABEL[resource.type]}
-        title={TYPE_LABEL[resource.type]}
+        aria-label={typeLabel}
+        title={typeLabel}
       >
         {ICON[resource.type]}
       </span>
@@ -55,13 +54,13 @@ export function ResourceItem({ resource, checked, onToggle, onTitleClick }: Prop
       >
         {resource.title}
       </span>
-      <span className={styles.duration}>{resource.durationMinutes} min</span>
+      <span className={styles.duration}>{resource.durationMinutes} {t.resource.min}</span>
       <a
         className={styles.external}
         href={resource.url}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label={`Open ${resource.title} in a new tab`}
+        aria-label={t.resource.openInNewTab(resource.title)}
       >
         <ExternalLink size={14} />
       </a>

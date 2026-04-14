@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { curriculum } from '../data/curriculum';
+import { useCurriculum } from '../data/use-curriculum';
 
 export interface SearchResultItem {
   milestoneId: string;
@@ -11,6 +11,7 @@ export interface SearchResultItem {
 }
 
 export function useSearch(query: string): SearchResultItem[] {
+  const curriculum = useCurriculum();
   return useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q.length < 2) return [];
@@ -44,5 +45,5 @@ export function useSearch(query: string): SearchResultItem[] {
     }
 
     return results.slice(0, 20);
-  }, [query]);
+  }, [query, curriculum]);
 }

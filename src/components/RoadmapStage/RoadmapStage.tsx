@@ -1,5 +1,6 @@
 import type { Milestone } from '../../domain/milestone';
 import type { MilestoneStatus } from '../../domain/progress';
+import { useTranslation } from '../../i18n';
 import { MilestoneCard } from '../MilestoneCard/MilestoneCard';
 import styles from './RoadmapStage.module.css';
 
@@ -32,6 +33,7 @@ const POSITIONS = [
 ];
 
 export function RoadmapStage({ milestones, statuses }: Props) {
+  const { t } = useTranslation();
   const ordered = [...milestones].sort((a, b) => a.order - b.order);
 
   return (
@@ -44,7 +46,7 @@ export function RoadmapStage({ milestones, statuses }: Props) {
         aria-labelledby="roadmap-title"
       >
         <title id="roadmap-title">
-          A winding path connecting four learning phases from CS Fundamentals to Backend Advanced.
+          {t.roadmap.svgTitle}
         </title>
         <defs>
           <linearGradient id="codepath-rgb-gradient" x1="0%" y1="0%" x2="0%" y2="100%">

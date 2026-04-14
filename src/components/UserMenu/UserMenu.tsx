@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTranslation } from '../../i18n';
 import styles from './UserMenu.module.css';
 
 function GitHubIcon({ size = 16 }: { size?: number }) {
@@ -13,6 +14,7 @@ function GitHubIcon({ size = 16 }: { size?: number }) {
 
 export function UserMenu() {
   const { user, loading, signInWithGitHub, signOut } = useAuth();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +36,7 @@ export function UserMenu() {
     return (
       <button className={styles.signInBtn} onClick={signInWithGitHub}>
         <GitHubIcon size={16} />
-        <span>Sign in</span>
+        <span>{t.auth.signIn}</span>
       </button>
     );
   }
@@ -67,7 +69,7 @@ export function UserMenu() {
             onClick={() => { signOut(); setOpen(false); }}
           >
             <LogOut size={14} />
-            <span>Sign out</span>
+            <span>{t.auth.signOut}</span>
           </button>
         </div>
       )}
