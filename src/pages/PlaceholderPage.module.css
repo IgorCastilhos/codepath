@@ -1,0 +1,18 @@
+.page {
+  padding: var(--s-10) 0;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.page h1 {
+  font-family: var(--f-display);
+  font-size: var(--t-h2);
+  margin-bottom: var(--s-4);
+}
+.desc {
+  color: var(--c-text-mute);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  max-width: 48ch;
+}

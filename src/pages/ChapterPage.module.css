@@ -1,5 +1,5 @@
 .page {
-  padding-top: calc(var(--s-10) + var(--s-7));
+  padding-top: var(--s-7);
   padding-bottom: var(--s-10);
   min-height: 100vh;
   position: relative;
@@ -108,7 +108,7 @@
 }
 
 .notFound {
-  padding-top: calc(var(--s-10) + var(--s-7));
+  padding-top: var(--s-7);
   text-align: center;
   min-height: 60vh;
 }

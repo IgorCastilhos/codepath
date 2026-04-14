@@ -9,7 +9,6 @@ import {
 import { curriculum } from '../data/curriculum';
 import type { Resource, ResourceType } from '../domain/milestone';
 import { useProgress } from '../hooks/use-progress';
-import { Nav } from '../components/Nav/Nav';
 import { Footer } from '../components/Footer/Footer';
 import { StatusBadge } from '../components/StatusBadge/StatusBadge';
 import { ResourceItem } from '../components/ResourceItem/ResourceItem';
@@ -75,7 +74,6 @@ export function ChapterPage() {
   if (!milestone) {
     return (
       <>
-        <Nav />
         <main className={styles.notFound}>
           <div className="container">
             <h1>Chapter not found</h1>
@@ -107,7 +105,6 @@ export function ChapterPage() {
 
   return (
     <>
-      <Nav />
       <main className={styles.page}>
         <div className="container">
           <Link to="/" className={styles.back}>
@@ -167,6 +164,7 @@ export function ChapterPage() {
                               resource={resource}
                               checked={completedSet.has(resource.id)}
                               onToggle={toggleResource}
+                              onTitleClick={() => setActiveTab('contents')}
                             />
                           ))}
                         </div>

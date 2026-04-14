@@ -7,6 +7,7 @@ interface Props {
   resource: Resource;
   checked: boolean;
   onToggle: (id: string) => void;
+  onTitleClick?: () => void;
 }
 
 const ICON: Record<ResourceType, ReactNode> = {
@@ -27,7 +28,7 @@ const TYPE_LABEL: Record<ResourceType, string> = {
   exercise: 'Exercise',
 };
 
-export function ResourceItem({ resource, checked, onToggle }: Props) {
+export function ResourceItem({ resource, checked, onToggle, onTitleClick }: Props) {
   const checkboxId = `resource-${resource.id}`;
   return (
     <div className={`${styles.item} ${checked ? styles.done : ''}`}>
@@ -46,9 +47,15 @@ export function ResourceItem({ resource, checked, onToggle }: Props) {
       >
         {ICON[resource.type]}
       </span>
-      <label htmlFor={checkboxId} className={styles.title}>
+      <span
+        className={styles.title}
+        role="button"
+        tabIndex={0}
+        onClick={onTitleClick}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onTitleClick?.(); }}
+      >
         {resource.title}
-      </label>
+      </span>
       <span className={styles.duration}>{resource.durationMinutes} min</span>
       <a
         className={styles.external}

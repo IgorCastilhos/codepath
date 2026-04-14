@@ -1,7 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { curriculum } from '../data/curriculum';
 import { useProgress } from '../hooks/use-progress';
-import { Nav } from '../components/Nav/Nav';
 import { RoadmapStage } from '../components/RoadmapStage/RoadmapStage';
 import { ProgressBar } from '../components/ProgressBar/ProgressBar';
 import { RevealOnScroll } from '../components/RevealOnScroll/RevealOnScroll';
@@ -32,8 +31,6 @@ export function HomePage() {
 
   return (
     <>
-      <Nav />
-
       <header className={styles.hero}>
         <div className={styles.spotMid} />
         <div className="container">
