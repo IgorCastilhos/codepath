@@ -122,28 +122,34 @@
   background: var(--c-bg-elev-3);
 }
 
-/* ── Mobile overlay ───────────────────────────────── */
+/* ── Overlay / mobile backdrop ─────────────────────── */
 .backdrop {
-  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 110;
+}
+
+/* ── Overlay mode (chapter pages) ─────────────────── */
+.sidebar.overlay {
+  transform: translateX(-100%);
+  width: 240px !important;
+  transition: transform 0.3s var(--ease-out);
+}
+.sidebar.overlay.mobileOpen {
+  transform: translateX(0);
 }
 
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar:not(.overlay) {
     transform: translateX(-100%);
     width: 240px !important;
     transition: transform 0.3s var(--ease-out);
   }
-  .sidebar.mobileOpen {
+  .sidebar:not(.overlay).mobileOpen {
     transform: translateX(0);
   }
-  .sidebar.collapsed {
+  .sidebar:not(.overlay).collapsed {
     transform: translateX(-100%);
-  }
-  .backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 110;
   }
 }

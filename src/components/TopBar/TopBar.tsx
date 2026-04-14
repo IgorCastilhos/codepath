@@ -1,15 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Search, Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, Menu, X } from 'lucide-react';
 import { useSearch } from '../../hooks/use-search';
 import { SearchResults } from '../SearchResults/SearchResults';
 import styles from './TopBar.module.css';
 
 interface Props {
   onMenuClick: () => void;
-  hideSidebar?: boolean;
+  overlayMode?: boolean;
+  drawerOpen?: boolean;
 }
 
-export function TopBar({ onMenuClick, hideSidebar }: Props) {
+export function TopBar({ onMenuClick, overlayMode, drawerOpen }: Props) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,12 +34,25 @@ export function TopBar({ onMenuClick, hideSidebar }: Props) {
   }, []);
 
   return (
-    <header className={`${styles.topbar} ${hideSidebar ? styles.noSidebar : ''}`}>
-      {!hideSidebar && (
-        <button className={styles.menuBtn} onClick={onMenuClick} aria-label="Toggle menu">
-          <Menu size={20} />
+    <header className={`${styles.topbar} ${overlayMode ? styles.overlayMode : ''}`}>
+      {overlayMode && (
+        <button className={styles.drawerBtn} onClick={onMenuClick} aria-label={drawerOpen ? 'Close menu' : 'Open menu'}>
+          {drawerOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       )}
+
+      {overlayMode && (
+        <Link to="/" className={styles.brand}>
+          <span className={styles.brandIcon} aria-hidden="true">
+            <span /><span /><span />
+          </span>
+          <span>CODEPATH</span>
+        </Link>
+      )}
+
+      <button className={styles.menuBtn} onClick={onMenuClick} aria-label="Toggle menu">
+        <Menu size={20} />
+      </button>
 
       <div className={styles.searchWrapper}>
         <Search size={16} className={styles.searchIcon} />

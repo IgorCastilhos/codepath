@@ -11,6 +11,7 @@ interface Props {
   mobileOpen: boolean;
   onToggle: () => void;
   onMobileClose: () => void;
+  overlay?: boolean;
 }
 
 const NAV_SECTIONS = [
@@ -62,7 +63,7 @@ function isInternal(item: NavItem): item is NavItemInternal {
   return 'to' in item;
 }
 
-export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose }: Props) {
+export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose, overlay }: Props) {
   const { pathname } = useLocation();
 
   const isActive = (to: string) => {
@@ -78,26 +79,27 @@ export function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose }: Prop
       <aside
         className={[
           styles.sidebar,
-          collapsed ? styles.collapsed : '',
+          collapsed && !overlay ? styles.collapsed : '',
           mobileOpen ? styles.mobileOpen : '',
+          overlay ? styles.overlay : '',
         ].filter(Boolean).join(' ')}
       >
         <div className={styles.header}>
-          {!collapsed && (
-            <Link to="/" className={styles.brand}>
-              <span className={styles.brandIcon} aria-hidden="true">
-                <span /><span /><span />
-              </span>
-              <span>CODEPATH</span>
-            </Link>
+          <Link to="/" className={styles.brand} onClick={onMobileClose}>
+            <span className={styles.brandIcon} aria-hidden="true">
+              <span /><span /><span />
+            </span>
+            {(!collapsed || overlay) && <span>CODEPATH</span>}
+          </Link>
+          {!overlay && (
+            <button
+              className={styles.toggle}
+              onClick={onToggle}
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
+            </button>
           )}
-          <button
-            className={styles.toggle}
-            onClick={onToggle}
-            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            {collapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
-          </button>
         </div>
 
         <nav className={styles.nav} aria-label="Main navigation">

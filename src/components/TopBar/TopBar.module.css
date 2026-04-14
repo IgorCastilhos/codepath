@@ -16,6 +16,53 @@
   transition: left 0.25s var(--ease);
 }
 
+.topbar.overlayMode {
+  left: 0;
+}
+
+/* ── Hamburger / X button (chapter overlay mode) ──── */
+.drawerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--c-text-mute);
+  cursor: pointer;
+  padding: var(--s-2);
+  transition: color 0.2s var(--ease);
+}
+.drawerBtn:hover {
+  color: var(--c-text);
+}
+
+/* ── Brand (shown in topbar on chapter pages) ─────── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.05em;
+  color: var(--c-text);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.brandIcon {
+  display: inline-flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.brandIcon span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.brandIcon span:nth-child(1) { background: var(--c-r); box-shadow: 0 0 8px var(--c-r); }
+.brandIcon span:nth-child(2) { background: var(--c-g); box-shadow: 0 0 8px var(--c-g); }
+.brandIcon span:nth-child(3) { background: var(--c-b); box-shadow: 0 0 8px var(--c-b); }
+
+/* ── Mobile-only menu button (non-chapter pages) ──── */
 .menuBtn {
   display: none;
   background: none;
@@ -71,10 +118,6 @@
   border-radius: 4px;
   padding: 2px 6px;
   pointer-events: none;
-}
-
-.topbar.noSidebar {
-  left: 0;
 }
 
 @media (max-width: 768px) {
