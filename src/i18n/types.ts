@@ -63,9 +63,7 @@ export interface Translations {
   // Home page
   home: {
     meta: string;
-    live: string;
     headline1: string;
-    headline2: string;
     lede: string;
     continuePhase: (order: string) => string;
     startPhase: (order: string) => string;

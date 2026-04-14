@@ -56,10 +56,8 @@ export const ptBR: Translations = {
     min: 'min',
   },
   home: {
-    meta: 'Sistema Roadmap / V 1.0 — 2026',
-    live: 'Sistema ativo — 4 fases',
+    meta: 'Formação 2026 · V 1.0',
     headline1: 'Codepath',
-    headline2: '',
     lede: 'Um roadmap completo desde fundamentos de Ciência da Computação até Clean Architecture e DDD. Quatro fases — Java & Node.js, PostgreSQL, TDD, Docker — cada passo rumo à engenharia de software profissional.',
     continuePhase: (order) => `Continuar fase ${order}`,
     startPhase: (order) => `Iniciar fase ${order}`,

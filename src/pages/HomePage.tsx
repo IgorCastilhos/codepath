@@ -46,57 +46,41 @@ export function HomePage() {
   return (
     <>
       <header className={styles.hero}>
-        {/* Aurora animated background */}
-        <div className={styles.aurora} aria-hidden="true">
-          <div className={styles.auroraCenter} />
-        </div>
+        <div className={styles.glow} aria-hidden="true" />
         <div className={styles.gridDots} aria-hidden="true" />
-        <div className={styles.floatingSymbols} aria-hidden="true">
-          <span className={styles.symbol}>{'</>'}</span>
-          <span className={styles.symbol}>{'{ }'}</span>
-          <span className={styles.symbol}>{'( )'}</span>
-          <span className={styles.symbol}>{'=>'}</span>
-          <span className={styles.symbol}>{'[ ]'}</span>
-          <span className={styles.symbol}>{'/**/'}</span>
+        <div className={styles.heroDivider} aria-hidden="true" />
+
+        <div className={styles.badge}>
+          <span className={styles.badgeDot} aria-hidden="true" />
+          <span>{t.home.meta}</span>
         </div>
-        <div className={styles.heroLine} aria-hidden="true" />
 
-        <div className="container">
-          <div className={styles.heroMeta}>
-            <span>{t.home.meta}</span>
-            <span className={styles.live}>{t.home.live}</span>
-          </div>
-          <h1 className={styles.heroHeadline}>
-            <span className={styles.row}><span>{t.home.headline1}</span></span>
-          </h1>
-          <p className={styles.lede}>{t.home.lede}</p>
+        <h1 className={styles.headline}>{t.home.headline1}</h1>
+        <p className={styles.tagline}>{t.home.lede}</p>
 
-          <div className={styles.stats}>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{phases.length}</span>
-              <span className={styles.statLabel}>{t.home.statPhases}</span>
-            </div>
-            <span className={styles.statDot} aria-hidden="true" />
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{totalResources}+</span>
-              <span className={styles.statLabel}>{t.home.statResources}</span>
-            </div>
-            <span className={styles.statDot} aria-hidden="true" />
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{totalHours}h+</span>
-              <span className={styles.statLabel}>{t.home.statHours}</span>
-            </div>
+        <div className={styles.stats}>
+          <div className={styles.statCard}>
+            <span className={styles.statValue}>{phases.length}</span>
+            <span className={styles.statLabel}>{t.home.statPhases}</span>
           </div>
+          <div className={styles.statCard}>
+            <span className={styles.statValue}>{totalResources}+</span>
+            <span className={styles.statLabel}>{t.home.statResources}</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statValue}>{totalHours}h+</span>
+            <span className={styles.statLabel}>{t.home.statHours}</span>
+          </div>
+        </div>
 
-          <div className={styles.actions}>
-            <ButtonLink to={`/chapter/${resumeChapter.id}`} variant="primary">
-              {resumeLabel}
-              <ArrowRight size={16} />
-            </ButtonLink>
-            <ButtonAnchor href="#roadmap" variant="ghost">
-              {t.home.seeRoadmap}
-            </ButtonAnchor>
-          </div>
+        <div className={styles.actions}>
+          <ButtonLink to={`/chapter/${resumeChapter.id}`} variant="primary">
+            {resumeLabel}
+            <ArrowRight size={16} />
+          </ButtonLink>
+          <ButtonAnchor href="#roadmap" variant="ghost">
+            {t.home.seeRoadmap}
+          </ButtonAnchor>
         </div>
       </header>
 
@@ -136,10 +120,10 @@ export function HomePage() {
       </section>
 
       <section id="cta" className={styles.cta}>
-        <div className={styles.ctaAurora} aria-hidden="true" />
+        <div className={styles.ctaGlow} aria-hidden="true" />
         <div className="container">
           <h2 className={styles.ctaHeadline}>
-            {t.home.ctaTitle} <span className={styles.grad}>{t.home.ctaHighlight}</span>
+            {t.home.ctaTitle} <span className={styles.ctaHighlight}>{t.home.ctaHighlight}</span>
           </h2>
           <div className={styles.ctaActions}>
             <ButtonLink to={`/chapter/${resumeChapter.id}`} variant="primary">
