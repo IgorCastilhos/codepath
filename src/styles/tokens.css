@@ -48,6 +48,11 @@
   /* Motion */
   --ease: cubic-bezier(0.65, 0, 0.05, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Button tokens */
+  --c-btn-primary-text: #0a0a0a;
+  --c-btn-primary-shadow: none;
+  --c-btn-ghost-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* ── Light theme ─────────────────────────────────── */
@@ -72,4 +77,8 @@
   --c-completed:    var(--c-g);
   --c-active:       var(--c-r);
   --c-locked:       var(--c-text-dim);
+
+  --c-btn-primary-text: #ffffff;
+  --c-btn-primary-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --c-btn-ghost-bg: rgba(0, 0, 0, 0.05);
 }

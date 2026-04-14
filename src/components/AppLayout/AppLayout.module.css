@@ -2,6 +2,25 @@
   --sidebar-width: 0px;
 }
 
+.skipLink {
+  position: fixed;
+  top: -100%;
+  left: var(--s-4);
+  z-index: 999;
+  padding: var(--s-3) var(--s-5);
+  background: var(--c-bg-elev-1);
+  color: var(--c-text);
+  border: 2px solid var(--c-g);
+  border-radius: var(--r-md);
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  text-decoration: none;
+  transition: top 0.2s var(--ease);
+}
+.skipLink:focus {
+  top: var(--s-4);
+}
+
 .content {
   margin-left: 0;
   padding-top: 56px;

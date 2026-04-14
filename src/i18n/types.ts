@@ -18,6 +18,7 @@ export interface Translations {
     searchPlaceholder: string;
     openMenu: string;
     closeMenu: string;
+    skipToContent: string;
   };
   // Auth / UserMenu
   auth: {
@@ -79,6 +80,9 @@ export interface Translations {
     progressDescription: string;
     ctaTitle: string;
     ctaHighlight: string;
+    statPhases: string;
+    statResources: string;
+    statHours: string;
   };
   // Chapter page
   chapter: {

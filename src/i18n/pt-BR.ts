@@ -18,6 +18,7 @@ export const ptBR: Translations = {
     searchPlaceholder: 'Buscar conteúdo...',
     openMenu: 'Abrir menu',
     closeMenu: 'Fechar menu',
+    skipToContent: 'Pular para o conteúdo',
   },
   auth: {
     signIn: 'Entrar',
@@ -73,6 +74,9 @@ export const ptBR: Translations = {
     progressDescription: 'Cada checkbox que você marca fica no seu navegador. Sem conta, sem login, sem nuvem — feche a aba, volte amanhã, e continue exatamente de onde parou.',
     ctaTitle: 'Pronto para',
     ctaHighlight: 'seguir a trilha?',
+    statPhases: 'fases',
+    statResources: 'recursos',
+    statHours: 'horas',
   },
   chapter: {
     notFoundTitle: 'Capítulo não encontrado',

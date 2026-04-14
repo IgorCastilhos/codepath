@@ -28,6 +28,11 @@ export function HomePage() {
     : t.home.startPhase(padOrder(resumeTarget.order));
 
   const totalResources = curriculum.reduce((n, m) => n + m.resources.length, 0);
+  const totalMinutes = curriculum.reduce(
+    (n, m) => n + m.resources.reduce((s, r) => s + r.durationMinutes, 0),
+    0,
+  );
+  const totalHours = Math.round(totalMinutes / 60);
   const completedResources = progress.completedResourceIds.filter((id) =>
     curriculum.some((m) => m.resources.some((r) => r.id === id)),
   ).length;
@@ -35,7 +40,21 @@ export function HomePage() {
   return (
     <>
       <header className={styles.hero}>
-        <div className={styles.spotMid} />
+        {/* Aurora animated background */}
+        <div className={styles.aurora} aria-hidden="true">
+          <div className={styles.auroraCenter} />
+        </div>
+        <div className={styles.gridDots} aria-hidden="true" />
+        <div className={styles.floatingSymbols} aria-hidden="true">
+          <span className={styles.symbol}>{'</>'}</span>
+          <span className={styles.symbol}>{'{ }'}</span>
+          <span className={styles.symbol}>{'( )'}</span>
+          <span className={styles.symbol}>{'=>'}</span>
+          <span className={styles.symbol}>{'[ ]'}</span>
+          <span className={styles.symbol}>{'/**/'}</span>
+        </div>
+        <div className={styles.heroLine} aria-hidden="true" />
+
         <div className="container">
           <div className={styles.heroMeta}>
             <span>{t.home.meta}</span>
@@ -48,6 +67,24 @@ export function HomePage() {
             </span>
           </h1>
           <p className={styles.lede}>{t.home.lede}</p>
+
+          <div className={styles.stats}>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{curriculum.length}</span>
+              <span className={styles.statLabel}>{t.home.statPhases}</span>
+            </div>
+            <span className={styles.statDot} aria-hidden="true" />
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{totalResources}+</span>
+              <span className={styles.statLabel}>{t.home.statResources}</span>
+            </div>
+            <span className={styles.statDot} aria-hidden="true" />
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{totalHours}h+</span>
+              <span className={styles.statLabel}>{t.home.statHours}</span>
+            </div>
+          </div>
+
           <div className={styles.actions}>
             <ButtonLink to={`/chapter/${resumeTarget.id}`} variant="primary">
               {resumeLabel}
@@ -96,6 +133,7 @@ export function HomePage() {
       </section>
 
       <section id="cta" className={styles.cta}>
+        <div className={styles.ctaAurora} aria-hidden="true" />
         <div className="container">
           <h2 className={styles.ctaHeadline}>
             {t.home.ctaTitle} <span className={styles.grad}>{t.home.ctaHighlight}</span>

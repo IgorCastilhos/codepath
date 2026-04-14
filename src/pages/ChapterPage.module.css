@@ -213,20 +213,28 @@
 .startBtn {
   width: 100%;
   padding: var(--s-4) var(--s-5);
-  background: linear-gradient(135deg, var(--c-r), var(--c-g));
+  background: linear-gradient(135deg, #ff2e63, #9dff3c 50%, #3c9dff);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
   border: none;
   border-radius: var(--r-md);
   font-family: var(--f-mono);
-  font-size: var(--t-xs);
+  font-size: 0.875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #0d0e10;
+  color: var(--c-btn-primary-text);
+  text-shadow: var(--c-btn-primary-shadow);
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  transition: background-position 0.5s var(--ease), opacity 0.2s var(--ease), transform 0.2s var(--ease);
   margin-bottom: var(--s-3);
+  box-shadow: 0 4px 20px rgba(157, 255, 60, 0.15), 0 2px 8px rgba(255, 46, 99, 0.1);
 }
-.startBtn:hover { opacity: 0.88; transform: translateY(-1px); }
+.startBtn:hover {
+  background-position: 100% 50%;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(60, 157, 255, 0.25), 0 4px 12px rgba(157, 255, 60, 0.15);
+}
 .contentsBtn {
   width: 100%;
   padding: var(--s-4) var(--s-5);

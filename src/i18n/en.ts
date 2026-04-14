@@ -18,6 +18,7 @@ export const en: Translations = {
     searchPlaceholder: 'Search content...',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
+    skipToContent: 'Skip to content',
   },
   auth: {
     signIn: 'Sign in',
@@ -73,6 +74,9 @@ export const en: Translations = {
     progressDescription: 'Every checkbox you tick lives in your browser. No account, no sign-in, no cloud — close the tab, come back tomorrow, and pick up exactly where you left off.',
     ctaTitle: 'Ready to',
     ctaHighlight: 'follow the path?',
+    statPhases: 'phases',
+    statResources: 'resources',
+    statHours: 'hours',
   },
   chapter: {
     notFoundTitle: 'Chapter not found',
