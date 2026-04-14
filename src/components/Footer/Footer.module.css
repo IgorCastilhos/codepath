@@ -1,0 +1,28 @@
+.footer {
+  padding: var(--s-7) 0;
+  border-top: 1px solid var(--c-line);
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+.reset {
+  color: var(--c-text-mute);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s var(--ease);
+}
+.reset:hover { color: var(--c-r); }

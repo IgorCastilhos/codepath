@@ -1,0 +1,75 @@
+.stage {
+  position: relative;
+  width: 100%;
+  padding-top: calc(1060 / 1200 * 100%);
+  margin-top: var(--s-8);
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pathBase {
+  fill: none;
+  stroke: var(--c-line-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.pathRgb {
+  fill: none;
+  stroke: url(#codepath-rgb-gradient);
+  stroke-width: 4;
+  stroke-linecap: round;
+  filter: url(#codepath-path-glow);
+  stroke-dasharray: 14 10;
+  animation: flow 3s linear infinite;
+}
+@keyframes flow {
+  to { stroke-dashoffset: -240; }
+}
+
+.nodeDot { filter: url(#codepath-path-glow); }
+
+.milestone {
+  position: absolute;
+  width: 28%;
+  min-width: 240px;
+}
+
+.m1 { top: 8%;  left: 2%; }
+.m2 { top: 27%; right: 2%; }
+.m3 { top: 50%; left: 2%; }
+.m4 { top: 82%; left: 50%; transform: translateX(-50%); }
+
+@media (max-width: 880px) {
+  .stage {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+    padding-left: var(--s-7);
+  }
+  .stage::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--c-r), var(--c-g), var(--c-b));
+    opacity: 0.4;
+  }
+  .svg { display: none; }
+  .milestone {
+    position: relative;
+    width: 100%;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+}

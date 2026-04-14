@@ -1,0 +1,51 @@
+:root {
+  /* Color — Graphite scale */
+  --c-bg:           #16171a;
+  --c-bg-elev-1:    #1c1d21;
+  --c-bg-elev-2:    #232428;
+  --c-bg-elev-3:    #2a2b30;
+  --c-line:         #303137;
+  --c-line-strong:  #3c3d44;
+  --c-text:         #f4f4f2;
+  --c-text-mute:    #8e8f96;
+  --c-text-dim:     #5a5b62;
+
+  /* Color — RGB triad (the path) */
+  --c-r:            #ff2e63;
+  --c-g:            #9dff3c;
+  --c-b:            #3c9dff;
+  --c-r-glow:       rgba(255, 46, 99, 0.35);
+  --c-g-glow:       rgba(157, 255, 60, 0.35);
+  --c-b-glow:       rgba(60, 157, 255, 0.35);
+
+  /* Status — semantic, mapped onto the triad */
+  --c-completed:    var(--c-g);
+  --c-active:       var(--c-r);
+  --c-locked:       var(--c-text-dim);
+
+  /* Type */
+  --f-display: 'Instrument Serif', 'Times New Roman', serif;
+  --f-sans:    'Geist', system-ui, sans-serif;
+  --f-mono:    'Geist Mono', 'JetBrains Mono', monospace;
+
+  /* Type scale — fluid */
+  --t-mega: clamp(4rem, 13vw, 13rem);
+  --t-h1:   clamp(2.5rem, 6.5vw, 5.5rem);
+  --t-h2:   clamp(2rem, 4.5vw, 3.75rem);
+  --t-h3:   clamp(1.4rem, 2vw, 1.85rem);
+  --t-body: 1rem;
+  --t-sm:   0.8125rem;
+  --t-xs:   0.6875rem;
+
+  /* Spacing */
+  --s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1rem;
+  --s-5: 1.5rem;  --s-6: 2rem;   --s-7: 3rem;    --s-8: 4rem;
+  --s-9: 6rem;    --s-10: 8rem;
+
+  /* Radii */
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px; --r-xl: 32px; --r-pill: 999px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.65, 0, 0.05, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
