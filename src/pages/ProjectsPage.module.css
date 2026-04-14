@@ -1,0 +1,152 @@
+.page {
+  padding: var(--s-8) 0 var(--s-10);
+  min-height: 70vh;
+}
+.header {
+  margin-bottom: var(--s-6);
+}
+.header h1 {
+  font-family: var(--f-display);
+  font-size: var(--t-h1);
+  margin-bottom: var(--s-2);
+}
+.desc {
+  color: var(--c-text-mute);
+  font-size: var(--t-base);
+  max-width: 50ch;
+}
+
+/* ── Stats ── */
+.statsRow {
+  display: flex;
+  gap: var(--s-6);
+  margin-bottom: var(--s-8);
+}
+.stat {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-bg-elev-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  color: var(--c-text-mute);
+}
+.stat svg { flex-shrink: 0; }
+.statValue {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: var(--t-base);
+  color: var(--c-text);
+}
+.statLabel {
+  font-size: var(--t-sm);
+  color: var(--c-text-mute);
+}
+
+/* ── Empty ── */
+.empty {
+  text-align: center;
+  padding: var(--s-10) var(--s-4);
+  color: var(--c-text-mute);
+}
+.empty svg { margin-bottom: var(--s-4); opacity: 0.4; }
+.empty h2 {
+  font-family: var(--f-display);
+  font-size: var(--t-h3);
+  color: var(--c-text);
+  margin-bottom: var(--s-2);
+}
+
+/* ── Groups ── */
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+.group {}
+.groupTitle {
+  font-family: var(--f-display);
+  font-size: var(--t-h3);
+  margin-bottom: var(--s-4);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+.groupOrder {
+  font-family: var(--f-mono);
+  color: var(--c-b);
+  font-size: var(--t-sm);
+}
+
+/* ── Exercise list ── */
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.exerciseCard {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-bg-elev-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  transition: border-color 0.15s var(--ease);
+}
+.exerciseCard:hover {
+  border-color: var(--c-b);
+}
+.exerciseCard.done {
+  opacity: 0.7;
+}
+.checkBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--c-text-dim);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.15s var(--ease);
+}
+.checkBtn:hover { color: var(--c-g); }
+.exerciseCard.done .checkBtn { color: var(--c-g); }
+
+.exerciseInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.exerciseTitle {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--c-text);
+}
+.exerciseCard.done .exerciseTitle {
+  text-decoration: line-through;
+  color: var(--c-text-mute);
+}
+.exerciseMeta {
+  font-size: var(--t-xs);
+  color: var(--c-text-dim);
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+.chapterLink {
+  color: var(--c-text-mute);
+  text-decoration: none;
+}
+.chapterLink:hover { text-decoration: underline; color: var(--c-b); }
+.dot { opacity: 0.4; }
+
+@media (max-width: 640px) {
+  .statsRow {
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+}

@@ -136,6 +136,95 @@ export interface Translations {
     forumDesc: string;
     helpDesc: string;
   };
+  // My Content page
+  myContent: {
+    title: string;
+    description: string;
+    overallProgress: string;
+    resourcesDone: string;
+    phasesCompleted: string;
+    hoursStudied: string;
+    inProgress: string;
+    completed: string;
+    noProgress: string;
+    noProgressDesc: string;
+    startLearning: string;
+    chapterProgress: (done: number, total: number) => string;
+    ofTotal: (n: number) => string;
+  };
+  // Catalog page
+  catalogPage: {
+    title: string;
+    description: string;
+    totalPhases: string;
+    totalChapters: string;
+    totalResources: string;
+    showChapters: string;
+    hideChapters: string;
+    readings: string;
+    videos: string;
+    exercises: string;
+  };
+  // Projects page
+  projectsPage: {
+    title: string;
+    description: string;
+    totalExercises: string;
+    completedCount: string;
+    noExercises: string;
+    noExercisesDesc: string;
+    fromChapter: (title: string) => string;
+    duration: (min: number) => string;
+  };
+  // Events page
+  eventsPage: {
+    title: string;
+    description: string;
+    comingSoon: string;
+    comingSoonDesc: string;
+    notifyMe: string;
+    emailPlaceholder: string;
+    tba: string;
+    sampleEvent1Title: string;
+    sampleEvent1Date: string;
+    sampleEvent1Tag: string;
+    sampleEvent2Title: string;
+    sampleEvent2Date: string;
+    sampleEvent2Tag: string;
+    sampleEvent3Title: string;
+    sampleEvent3Date: string;
+    sampleEvent3Tag: string;
+  };
+  // Help page
+  helpPage: {
+    title: string;
+    description: string;
+    gettingStarted: string;
+    step1Title: string;
+    step1Desc: string;
+    step2Title: string;
+    step2Desc: string;
+    step3Title: string;
+    step3Desc: string;
+    step4Title: string;
+    step4Desc: string;
+    faq: string;
+    faq1Q: string;
+    faq1A: string;
+    faq2Q: string;
+    faq2A: string;
+    faq3Q: string;
+    faq3A: string;
+    faq4Q: string;
+    faq4A: string;
+    faq5Q: string;
+    faq5A: string;
+    faq6Q: string;
+    faq6A: string;
+    needHelp: string;
+    needHelpDesc: string;
+    joinCommunity: string;
+  };
   // Roadmap SVG
   roadmap: {
     svgTitle: string;

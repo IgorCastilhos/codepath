@@ -1,0 +1,232 @@
+.page {
+  padding: var(--s-8) 0 var(--s-10);
+  min-height: 70vh;
+}
+.header {
+  margin-bottom: var(--s-6);
+}
+.header h1 {
+  font-family: var(--f-display);
+  font-size: var(--t-h1);
+  margin-bottom: var(--s-2);
+}
+.desc {
+  color: var(--c-text-mute);
+  font-size: var(--t-base);
+  max-width: 50ch;
+}
+
+/* ── Summary bar ── */
+.summary {
+  display: flex;
+  gap: var(--s-6);
+  margin-bottom: var(--s-8);
+  padding: var(--s-4) var(--s-5);
+  background: var(--c-bg-elev-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+}
+.summaryItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+.summaryValue {
+  font-family: var(--f-mono);
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--c-text);
+}
+.summaryLabel {
+  font-size: var(--t-sm);
+  color: var(--c-text-mute);
+}
+
+/* ── Phases ── */
+.phases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+.phaseCard {
+  background: var(--c-bg-elev-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.phaseCard[open] {
+  border-color: var(--c-b);
+}
+.phaseSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-4) var(--s-5);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  gap: var(--s-4);
+}
+.phaseSummary::-webkit-details-marker { display: none; }
+.phaseSummary::marker { content: ''; }
+
+.phaseLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+}
+.phaseOrder {
+  font-family: var(--f-mono);
+  font-size: var(--t-h3);
+  font-weight: 600;
+  color: var(--c-b);
+  flex-shrink: 0;
+}
+.phaseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.phaseTitle {
+  font-weight: 600;
+  font-size: var(--t-base);
+  color: var(--c-text);
+}
+.phaseMeta {
+  font-size: var(--t-xs);
+  color: var(--c-text-dim);
+}
+
+.phaseRight {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex-shrink: 0;
+}
+.statusBadge {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.statusBadge.completed { background: color-mix(in srgb, var(--c-g) 15%, transparent); color: var(--c-g); }
+.statusBadge.active { background: color-mix(in srgb, var(--c-b) 15%, transparent); color: var(--c-b); }
+.statusBadge.upcoming { background: var(--c-bg-elev-2); color: var(--c-text-mute); }
+.statusBadge.locked { background: var(--c-bg-elev-2); color: var(--c-text-dim); }
+
+.phasePct {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 80px;
+}
+.phaseBar {
+  flex: 1;
+  height: 4px;
+  background: var(--c-line);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+.phaseBarFill {
+  height: 100%;
+  background: var(--c-g);
+  border-radius: var(--r-full);
+  transition: width 0.3s var(--ease-out);
+}
+.phasePctText {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  color: var(--c-text-dim);
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ── Chapter grid ── */
+.chapterGrid {
+  border-top: 1px solid var(--c-line);
+  display: flex;
+  flex-direction: column;
+}
+.chapterRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-5) var(--s-3) calc(var(--s-5) + 4px);
+  border-bottom: 1px solid var(--c-line);
+  text-decoration: none;
+  color: var(--c-text);
+  transition: background 0.15s var(--ease);
+}
+.chapterRow:last-child { border-bottom: none; }
+.chapterRow:hover { background: var(--c-bg-elev-2); }
+.chapterRow.locked { opacity: 0.5; }
+
+.chapterOrder {
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  color: var(--c-text-dim);
+  width: 28px;
+  flex-shrink: 0;
+}
+.chapterInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.chapterTitle {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chapterTags {
+  display: flex;
+  gap: var(--s-3);
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--t-xs);
+  color: var(--c-text-dim);
+}
+.chapterBadge {
+  font-size: var(--t-xs);
+  font-family: var(--f-mono);
+  padding: 2px 6px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.chapterBadge.completed { color: var(--c-g); }
+.chapterBadge.active { color: var(--c-b); }
+.chapterBadge.upcoming { color: var(--c-text-mute); }
+.chapterBadge.locked { color: var(--c-text-dim); }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .summary {
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+  .phaseRight {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--s-2);
+  }
+  .phasePct {
+    min-width: 60px;
+  }
+  .phaseSummary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

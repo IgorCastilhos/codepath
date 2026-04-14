@@ -4,7 +4,12 @@ import { HomePage } from './pages/HomePage';
 import { PhasePage } from './pages/PhasePage';
 import { ChapterPage } from './pages/ChapterPage';
 import { VideoPage } from './pages/VideoPage';
-import { PlaceholderPage } from './pages/PlaceholderPage';
+import { MyContentPage } from './pages/MyContentPage';
+import { CatalogPage } from './pages/CatalogPage';
+import { ProjectsPage } from './pages/ProjectsPage';
+import { EventsPage } from './pages/EventsPage';
+import { ForumPage } from './pages/ForumPage';
+import { HelpPage } from './pages/HelpPage';
 
 export function App() {
   return (
@@ -15,12 +20,12 @@ export function App() {
           <Route path="/phase/:id" element={<PhasePage />} />
           <Route path="/chapter/:id" element={<ChapterPage />} />
           <Route path="/chapter/:id/video/:resourceId" element={<VideoPage />} />
-          <Route path="/my-content" element={<PlaceholderPage titleKey="myContent" descKey="myContentDesc" />} />
-          <Route path="/catalog" element={<PlaceholderPage titleKey="catalog" descKey="catalogDesc" />} />
-          <Route path="/projects" element={<PlaceholderPage titleKey="projects" descKey="projectsDesc" />} />
-          <Route path="/events" element={<PlaceholderPage titleKey="events" descKey="eventsDesc" />} />
-          <Route path="/forum" element={<PlaceholderPage titleKey="forum" descKey="forumDesc" />} />
-          <Route path="/help" element={<PlaceholderPage titleKey="help" descKey="helpDesc" />} />
+          <Route path="/my-content" element={<MyContentPage />} />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/forum" element={<ForumPage />} />
+          <Route path="/help" element={<HelpPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
