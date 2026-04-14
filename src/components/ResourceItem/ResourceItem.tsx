@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { BookOpen, Play, Code, ExternalLink } from 'lucide-react';
+import { BookOpen, Play, Code, ExternalLink, CheckCircle2, Circle } from 'lucide-react';
 import type { Resource, ResourceType } from '../../domain/milestone';
 import styles from './ResourceItem.module.css';
 
@@ -29,17 +29,16 @@ const TYPE_LABEL: Record<ResourceType, string> = {
 };
 
 export function ResourceItem({ resource, checked, onToggle, onTitleClick }: Props) {
-  const checkboxId = `resource-${resource.id}`;
   return (
     <div className={`${styles.item} ${checked ? styles.done : ''}`}>
-      <input
-        type="checkbox"
-        id={checkboxId}
-        className={styles.checkbox}
-        checked={checked}
-        onChange={() => onToggle(resource.id)}
+      <button
+        className={`${styles.markBtn} ${checked ? styles.markBtnDone : ''}`}
+        onClick={() => onToggle(resource.id)}
         aria-label={`Mark ${resource.title} as ${checked ? 'incomplete' : 'complete'}`}
-      />
+        title={checked ? 'Mark incomplete' : 'Mark complete'}
+      >
+        {checked ? <CheckCircle2 size={16} /> : <Circle size={16} />}
+      </button>
       <span
         className={`${styles.icon} ${styles[ICON_CLASS[resource.type]]}`}
         aria-label={TYPE_LABEL[resource.type]}

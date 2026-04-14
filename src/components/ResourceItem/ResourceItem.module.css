@@ -19,11 +19,29 @@
 }
 .item.done .title { color: var(--c-text-mute); text-decoration: line-through; }
 
-.checkbox {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--c-g);
+.markBtn {
+  background: none;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-pill);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-dim);
   cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  flex-shrink: 0;
+  padding: 0;
+}
+.markBtn:hover {
+  border-color: var(--c-g);
+  color: var(--c-g);
+}
+.markBtnDone {
+  border-color: var(--c-g);
+  color: var(--c-g);
+  background: var(--c-g-glow);
 }
 
 .icon {
