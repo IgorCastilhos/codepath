@@ -2,48 +2,54 @@ import { useMemo } from 'react';
 import { useCurriculum } from '../data/use-curriculum';
 
 export interface SearchResultItem {
+  /** chapter id (was milestoneId) */
   milestoneId: string;
   milestoneTitle: string;
   milestoneOrder: number;
+  phaseTitle?: string;
   resourceId?: string;
   resourceTitle?: string;
   resourceType?: string;
 }
 
 export function useSearch(query: string): SearchResultItem[] {
-  const curriculum = useCurriculum();
+  const phases = useCurriculum();
   return useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q.length < 2) return [];
 
     const results: SearchResultItem[] = [];
 
-    for (const milestone of curriculum) {
-      const mTitleMatch = milestone.title.toLowerCase().includes(q);
-      const mDescMatch = milestone.description.toLowerCase().includes(q);
+    for (const phase of phases) {
+      for (const chapter of phase.chapters) {
+        const cTitleMatch = chapter.title.toLowerCase().includes(q);
+        const cDescMatch = chapter.description.toLowerCase().includes(q);
 
-      if (mTitleMatch || mDescMatch) {
-        results.push({
-          milestoneId: milestone.id,
-          milestoneTitle: milestone.title,
-          milestoneOrder: milestone.order,
-        });
-      }
-
-      for (const resource of milestone.resources) {
-        if (resource.title.toLowerCase().includes(q)) {
+        if (cTitleMatch || cDescMatch) {
           results.push({
-            milestoneId: milestone.id,
-            milestoneTitle: milestone.title,
-            milestoneOrder: milestone.order,
-            resourceId: resource.id,
-            resourceTitle: resource.title,
-            resourceType: resource.type,
+            milestoneId: chapter.id,
+            milestoneTitle: chapter.title,
+            milestoneOrder: chapter.order,
+            phaseTitle: phase.title,
           });
+        }
+
+        for (const resource of chapter.resources) {
+          if (resource.title.toLowerCase().includes(q)) {
+            results.push({
+              milestoneId: chapter.id,
+              milestoneTitle: chapter.title,
+              milestoneOrder: chapter.order,
+              phaseTitle: phase.title,
+              resourceId: resource.id,
+              resourceTitle: resource.title,
+              resourceType: resource.type,
+            });
+          }
         }
       }
     }
 
     return results.slice(0, 20);
-  }, [query, curriculum]);
+  }, [query, phases]);
 }

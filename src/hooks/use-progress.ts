@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { curriculum } from '../data/curriculum';
+import { getAllChapters } from '../domain/milestone';
 import {
   computeCompletionPercent,
   createDefaultProgress,
   deriveStatuses,
+  derivePhaseStatuses,
   type MilestoneStatus,
   type ProgressState,
 } from '../domain/progress';
@@ -23,10 +25,15 @@ const localRepo: ProgressRepository =
         reset: () => {},
       };
 
+const allChapters = getAllChapters(curriculum);
+
 export interface UseProgressResult {
   progress: ProgressState;
   loading: boolean;
+  /** Status per chapter id */
   statuses: Record<string, MilestoneStatus>;
+  /** Status per phase id */
+  phaseStatuses: Record<string, MilestoneStatus>;
   completionPercent: number;
   toggleResource: (resourceId: string) => void;
   resetProgress: () => void;
@@ -36,16 +43,13 @@ export interface UseProgressResult {
 export function useProgress(): UseProgressResult {
   const { user } = useAuth();
   const [progress, setProgress] = useState<ProgressState>(() => {
-    // Start with local progress (sync) while we may load from Supabase
     const local = localRepo.load();
     return local instanceof Promise ? createDefaultProgress() : local;
   });
   const [loading, setLoading] = useState(false);
 
-  // Track the active repository
   const repoRef = useRef<ProgressRepository>(localRepo);
 
-  // When user changes, switch repository and load progress
   useEffect(() => {
     if (user && supabase) {
       const supaRepo = new SupabaseProgressRepository(supabase, user.id);
@@ -53,9 +57,7 @@ export function useProgress(): UseProgressResult {
       setLoading(true);
 
       (async () => {
-        // Merge any local progress on first login
         await mergeLocalProgressOnFirstLogin(supabase, user.id);
-        // Load from Supabase
         const loaded = await supaRepo.load();
         setProgress(loaded);
         setLoading(false);
@@ -110,9 +112,10 @@ export function useProgress(): UseProgressResult {
     [],
   );
 
-  const statuses = useMemo(() => deriveStatuses(curriculum, progress), [progress]);
+  const statuses = useMemo(() => deriveStatuses(allChapters, progress), [progress]);
+  const phaseStatuses = useMemo(() => derivePhaseStatuses(curriculum, statuses), [statuses]);
   const completionPercent = useMemo(
-    () => computeCompletionPercent(curriculum, progress),
+    () => computeCompletionPercent(allChapters, progress),
     [progress],
   );
 
@@ -120,6 +123,7 @@ export function useProgress(): UseProgressResult {
     progress,
     loading,
     statuses,
+    phaseStatuses,
     completionPercent,
     toggleResource,
     resetProgress,

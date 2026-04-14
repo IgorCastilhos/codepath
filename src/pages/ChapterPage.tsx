@@ -7,6 +7,7 @@ import {
   ListVideo, LayoutGrid, CheckCircle2, Circle,
 } from 'lucide-react';
 import { useCurriculum } from '../data/use-curriculum';
+import { findChapter, findPhaseForChapter } from '../domain/milestone';
 import type { Resource, ResourceType } from '../domain/milestone';
 import { useProgress } from '../hooks/use-progress';
 import { useTranslation } from '../i18n';
@@ -47,15 +48,20 @@ function formatDuration(minutes: number): string {
 
 export function ChapterPage() {
   const { id } = useParams<{ id: string }>();
-  const curriculum = useCurriculum();
+  const phases = useCurriculum();
   const { t } = useTranslation();
   const { statuses, progress, toggleResource, setLastVisited, resetProgress } =
     useProgress();
   const [activeTab, setActiveTab] = useState<'overview' | 'contents'>('overview');
 
   const milestone = useMemo(
-    () => curriculum.find((m) => m.id === id) ?? null,
-    [id, curriculum],
+    () => findChapter(phases, id ?? '') ?? null,
+    [id, phases],
+  );
+
+  const parentPhase = useMemo(
+    () => (id ? findPhaseForChapter(phases, id) : undefined),
+    [id, phases],
   );
 
   useEffect(() => {
@@ -110,7 +116,7 @@ export function ChapterPage() {
     <>
       <main className={styles.page}>
         <div className="container">
-          <Link to="/" className={styles.back}>
+          <Link to={parentPhase ? `/phase/${parentPhase.id}` : '/'} className={styles.back}>
             <ArrowLeft size={14} /> {t.chapter.backToPath}
           </Link>
 

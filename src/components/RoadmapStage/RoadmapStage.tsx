@@ -1,12 +1,12 @@
-import type { Milestone } from '../../domain/milestone';
+import type { Phase } from '../../domain/milestone';
 import type { MilestoneStatus } from '../../domain/progress';
 import { useTranslation } from '../../i18n';
 import { MilestoneCard } from '../MilestoneCard/MilestoneCard';
 import styles from './RoadmapStage.module.css';
 
 interface Props {
-  milestones: readonly Milestone[];
-  statuses: Record<string, MilestoneStatus>;
+  phases: readonly Phase[];
+  phaseStatuses: Record<string, MilestoneStatus>;
 }
 
 const PATH_D = `M 180 180
@@ -32,9 +32,9 @@ const POSITIONS = [
   styles.m1, styles.m2, styles.m3, styles.m4,
 ];
 
-export function RoadmapStage({ milestones, statuses }: Props) {
+export function RoadmapStage({ phases, phaseStatuses }: Props) {
   const { t } = useTranslation();
-  const ordered = [...milestones].sort((a, b) => a.order - b.order);
+  const ordered = [...phases].sort((a, b) => a.order - b.order);
 
   return (
     <div className={styles.stage}>
@@ -78,12 +78,12 @@ export function RoadmapStage({ milestones, statuses }: Props) {
         ))}
       </svg>
 
-      {ordered.map((milestone, i) => {
-        const status = statuses[milestone.id] ?? 'locked';
+      {ordered.map((phase, i) => {
+        const status = phaseStatuses[phase.id] ?? 'locked';
         return (
           <MilestoneCard
-            key={milestone.id}
-            milestone={milestone}
+            key={phase.id}
+            phase={phase}
             status={status}
             className={`${styles.milestone} ${POSITIONS[i] ?? ''}`}
           />

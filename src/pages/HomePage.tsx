@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useCurriculum } from '../data/use-curriculum';
+import { getAllChapters, findChapter, findPhaseForChapter } from '../domain/milestone';
 import { useProgress } from '../hooks/use-progress';
 import { useTranslation } from '../i18n';
 import { RoadmapStage } from '../components/RoadmapStage/RoadmapStage';
@@ -14,27 +15,32 @@ function padOrder(n: number): string {
 }
 
 export function HomePage() {
-  const curriculum = useCurriculum();
+  const phases = useCurriculum();
   const { t } = useTranslation();
-  const { statuses, completionPercent, progress, resetProgress } = useProgress();
+  const { statuses, phaseStatuses, completionPercent, progress, resetProgress } = useProgress();
 
-  const activeMilestone = curriculum.find((m) => statuses[m.id] === 'active');
-  const lastVisited = progress.lastVisitedMilestoneId
-    ? curriculum.find((m) => m.id === progress.lastVisitedMilestoneId)
+  const allChapters = getAllChapters(phases);
+
+  // Find the active chapter (first with 'active' status)
+  const activeChapter = allChapters.find((ch) => statuses[ch.id] === 'active');
+  const lastVisitedChapter = progress.lastVisitedMilestoneId
+    ? findChapter(phases, progress.lastVisitedMilestoneId)
     : null;
-  const resumeTarget = lastVisited ?? activeMilestone ?? curriculum[0]!;
-  const resumeLabel = progress.lastVisitedMilestoneId
-    ? t.home.continuePhase(padOrder(resumeTarget.order))
-    : t.home.startPhase(padOrder(resumeTarget.order));
+  const resumeChapter = lastVisitedChapter ?? activeChapter ?? allChapters[0]!;
+  const resumePhase = findPhaseForChapter(phases, resumeChapter.id);
 
-  const totalResources = curriculum.reduce((n, m) => n + m.resources.length, 0);
-  const totalMinutes = curriculum.reduce(
-    (n, m) => n + m.resources.reduce((s, r) => s + r.durationMinutes, 0),
+  const resumeLabel = progress.lastVisitedMilestoneId
+    ? t.home.continuePhase(padOrder(resumePhase?.order ?? 1))
+    : t.home.startPhase(padOrder(resumePhase?.order ?? 1));
+
+  const totalResources = allChapters.reduce((n, ch) => n + ch.resources.length, 0);
+  const totalMinutes = allChapters.reduce(
+    (n, ch) => n + ch.resources.reduce((s, r) => s + r.durationMinutes, 0),
     0,
   );
   const totalHours = Math.round(totalMinutes / 60);
   const completedResources = progress.completedResourceIds.filter((id) =>
-    curriculum.some((m) => m.resources.some((r) => r.id === id)),
+    allChapters.some((ch) => ch.resources.some((r) => r.id === id)),
   ).length;
 
   return (
@@ -70,7 +76,7 @@ export function HomePage() {
 
           <div className={styles.stats}>
             <div className={styles.stat}>
-              <span className={styles.statValue}>{curriculum.length}</span>
+              <span className={styles.statValue}>{phases.length}</span>
               <span className={styles.statLabel}>{t.home.statPhases}</span>
             </div>
             <span className={styles.statDot} aria-hidden="true" />
@@ -86,7 +92,7 @@ export function HomePage() {
           </div>
 
           <div className={styles.actions}>
-            <ButtonLink to={`/chapter/${resumeTarget.id}`} variant="primary">
+            <ButtonLink to={`/chapter/${resumeChapter.id}`} variant="primary">
               {resumeLabel}
               <ArrowRight size={16} />
             </ButtonLink>
@@ -103,7 +109,7 @@ export function HomePage() {
             <span className="eyebrow">{t.home.eyebrow1}</span>
             <h2>{t.home.sectionTitle1a}<br /><span className="italic">{t.home.sectionTitle1b}</span></h2>
           </RevealOnScroll>
-          <RoadmapStage milestones={curriculum} statuses={statuses} />
+          <RoadmapStage phases={phases} phaseStatuses={phaseStatuses} />
         </div>
       </section>
 
@@ -139,7 +145,7 @@ export function HomePage() {
             {t.home.ctaTitle} <span className={styles.grad}>{t.home.ctaHighlight}</span>
           </h2>
           <div className={styles.ctaActions}>
-            <ButtonLink to={`/chapter/${resumeTarget.id}`} variant="primary">
+            <ButtonLink to={`/chapter/${resumeChapter.id}`} variant="primary">
               {resumeLabel}
               <ArrowRight size={16} />
             </ButtonLink>

@@ -134,6 +134,12 @@ export const en: Translations = {
     locked: (title) => `${title} — locked`,
     openChapter: (title) => `${title} — open chapter`,
   },
+  phase: {
+    chapters: 'Chapters',
+    backToRoadmap: 'Back to roadmap',
+    chapterCount: (n) => `${n} chapter${n === 1 ? '' : 's'}`,
+    resourceCount: (n) => `${n} resource${n === 1 ? '' : 's'}`,
+  },
   theme: {
     dark: 'Dark',
     light: 'Light',

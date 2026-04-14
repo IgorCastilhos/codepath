@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppLayout } from './components/AppLayout/AppLayout';
 import { HomePage } from './pages/HomePage';
+import { PhasePage } from './pages/PhasePage';
 import { ChapterPage } from './pages/ChapterPage';
 import { VideoPage } from './pages/VideoPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
@@ -11,6 +12,7 @@ export function App() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/phase/:id" element={<PhasePage />} />
           <Route path="/chapter/:id" element={<ChapterPage />} />
           <Route path="/chapter/:id/video/:resourceId" element={<VideoPage />} />
           <Route path="/my-content" element={<PlaceholderPage titleKey="myContent" descKey="myContentDesc" />} />

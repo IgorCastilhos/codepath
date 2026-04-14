@@ -134,6 +134,12 @@ export const ptBR: Translations = {
     locked: (title) => `${title} — bloqueado`,
     openChapter: (title) => `${title} — abrir capítulo`,
   },
+  phase: {
+    chapters: 'Capítulos',
+    backToRoadmap: 'Voltar ao roadmap',
+    chapterCount: (n) => `${n} capítulo${n === 1 ? '' : 's'}`,
+    resourceCount: (n) => `${n} recurso${n === 1 ? '' : 's'}`,
+  },
   theme: {
     dark: 'Escuro',
     light: 'Claro',

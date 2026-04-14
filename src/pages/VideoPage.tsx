@@ -6,6 +6,7 @@ import {
   SkipBack, CheckCircle2, Download, ChevronRight,
 } from 'lucide-react';
 import { useCurriculum } from '../data/use-curriculum';
+import { findChapter } from '../domain/milestone';
 import type { Resource, ResourceType } from '../domain/milestone';
 import { useProgress } from '../hooks/use-progress';
 import { useTranslation } from '../i18n';
@@ -81,14 +82,14 @@ function SidebarItem({ resource, chapterId, isActive, isDone }: SidebarItemProps
 export function VideoPage() {
   const { id, resourceId } = useParams<{ id: string; resourceId: string }>();
   const navigate = useNavigate();
-  const curriculum = useCurriculum();
+  const phases = useCurriculum();
   const { t } = useTranslation();
   const { progress, toggleResource } = useProgress();
   const [activeBottomTab, setActiveBottomTab] = useState<'about' | 'materials'>('about');
 
   const milestone = useMemo(
-    () => curriculum.find((m) => m.id === id) ?? null,
-    [id, curriculum],
+    () => findChapter(phases, id ?? '') ?? null,
+    [id, phases],
   );
 
   const resource = useMemo(

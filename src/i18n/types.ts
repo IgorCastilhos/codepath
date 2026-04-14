@@ -142,10 +142,17 @@ export interface Translations {
   roadmap: {
     svgTitle: string;
   };
-  // Milestone card
+  // Milestone card (phase card on roadmap)
   milestone: {
     locked: (title: string) => string;
     openChapter: (title: string) => string;
+  };
+  // Phase page
+  phase: {
+    chapters: string;
+    backToRoadmap: string;
+    chapterCount: (n: number) => string;
+    resourceCount: (n: number) => string;
   };
   // Theme
   theme: {
