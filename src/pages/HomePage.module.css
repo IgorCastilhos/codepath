@@ -159,12 +159,12 @@
 .heroHeadline {
   font-family: var(--f-display);
   font-size: var(--t-mega);
-  line-height: 0.88;
+  line-height: 0.95;
   position: relative;
   letter-spacing: -0.02em;
   font-weight: 400;
 }
-.row { display: block; overflow: hidden; }
+.row { display: block; overflow: hidden; padding-bottom: 0.08em; }
 .row span {
   display: inline-block;
   animation: rise 1.2s var(--ease-out) backwards;
@@ -179,7 +179,7 @@
 /* ── Lede ────────────────────────────────────────── */
 .lede {
   max-width: 560px;
-  margin-top: var(--s-7);
+  margin-top: var(--s-8);
   font-size: 1.125rem;
   color: var(--c-text-mute);
   line-height: 1.55;
