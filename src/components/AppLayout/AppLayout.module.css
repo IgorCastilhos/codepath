@@ -4,6 +4,9 @@
 .layout.sidebarCollapsed {
   --sidebar-width: 60px;
 }
+.layout.noSidebar {
+  --sidebar-width: 0px;
+}
 
 .content {
   margin-left: var(--sidebar-width);

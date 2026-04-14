@@ -73,6 +73,10 @@
   pointer-events: none;
 }
 
+.topbar.noSidebar {
+  left: 0;
+}
+
 @media (max-width: 768px) {
   .topbar {
     left: 0;

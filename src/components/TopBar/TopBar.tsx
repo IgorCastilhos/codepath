@@ -6,9 +6,10 @@ import styles from './TopBar.module.css';
 
 interface Props {
   onMenuClick: () => void;
+  hideSidebar?: boolean;
 }
 
-export function TopBar({ onMenuClick }: Props) {
+export function TopBar({ onMenuClick, hideSidebar }: Props) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -31,10 +32,12 @@ export function TopBar({ onMenuClick }: Props) {
   }, []);
 
   return (
-    <header className={styles.topbar}>
-      <button className={styles.menuBtn} onClick={onMenuClick} aria-label="Toggle menu">
-        <Menu size={20} />
-      </button>
+    <header className={`${styles.topbar} ${hideSidebar ? styles.noSidebar : ''}`}>
+      {!hideSidebar && (
+        <button className={styles.menuBtn} onClick={onMenuClick} aria-label="Toggle menu">
+          <Menu size={20} />
+        </button>
+      )}
 
       <div className={styles.searchWrapper}>
         <Search size={16} className={styles.searchIcon} />
